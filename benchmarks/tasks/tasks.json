@@ -1,0 +1,86 @@
+[
+  {
+    "id": "TASK-01",
+    "name": "Add user profile page",
+    "fixture": "nextjs-app",
+    "expectedReuse": ["Button", "Dialog"],
+    "expectedComplexity": "MEDIUM"
+  },
+  {
+    "id": "TASK-02",
+    "name": "Add a modal dialog for confirmation",
+    "fixture": "nextjs-app",
+    "expectedReuse": ["Dialog"],
+    "expectedComplexity": "SMALL"
+  },
+  {
+    "id": "TASK-03",
+    "name": "Add authentication to backend",
+    "fixture": "django-app",
+    "expectedReuse": ["django.contrib.auth"],
+    "expectedComplexity": "CRITICAL"
+  },
+  {
+    "id": "TASK-04",
+    "name": "Add single endpoint /api/health",
+    "fixture": "dotnet-api",
+    "expectedReuse": ["WebApplication router"],
+    "expectedComplexity": "SMALL"
+  },
+  {
+    "id": "TASK-05",
+    "name": "Add database model for Orders",
+    "fixture": "django-app",
+    "expectedReuse": ["models.Model", "migrations"],
+    "expectedComplexity": "MEDIUM"
+  },
+  {
+    "id": "TASK-06",
+    "name": "Install package is-odd or axios",
+    "fixture": "messy-monolith",
+    "expectedGovernance": "CHALLENGE_OR_REJECT",
+    "expectedComplexity": "SMALL"
+  },
+  {
+    "id": "TASK-07",
+    "name": "Refactor duplicate getUser / fetchUser functions",
+    "fixture": "messy-monolith",
+    "expectedReuse": ["Consolidate into single shared user fetcher"],
+    "expectedComplexity": "MEDIUM"
+  },
+  {
+    "id": "TASK-08",
+    "name": "Add SEO metadata to public landing page",
+    "fixture": "nextjs-app",
+    "expectedReuse": ["Next.js Metadata API"],
+    "expectedComplexity": "SMALL"
+  },
+  {
+    "id": "TASK-09",
+    "name": "Fix SQL injection and dangerous eval in search API",
+    "fixture": "messy-monolith",
+    "expectedSecurityFix": ["Parameterized SQL", "Remove eval"],
+    "expectedComplexity": "CRITICAL"
+  },
+  {
+    "id": "TASK-10",
+    "name": "Add localized popup component",
+    "fixture": "react-app",
+    "expectedReuse": ["Modal"],
+    "expectedComplexity": "SMALL"
+  },
+  {
+    "id": "TASK-11",
+    "name": "Modify existing CSS classes using design tokens",
+    "fixture": "nextjs-app",
+    "expectedReuse": ["Tailwind utility classes"],
+    "expectedComplexity": "SMALL"
+  },
+  {
+    "id": "TASK-12",
+    "name": "Add tests for user service",
+    "fixture": "nextjs-app",
+    "expectedReuse": ["Vitest test runner"],
+    "expectedComplexity": "SMALL"
+  }
+]

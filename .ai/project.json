@@ -1,0 +1,14 @@
+{
+  "name": "tailor-ai",
+  "type": "cli",
+  "profile": "cli",
+  "language": "TypeScript",
+  "packageManager": "npm",
+  "testing": [
+    "Vitest"
+  ],
+  "seo": false,
+  "securityLevel": "high",
+  "lastScanned": "2026-08-16T07:54:59.886Z",
+  "summary": "tailor-ai (cli) built with TypeScript"
+}

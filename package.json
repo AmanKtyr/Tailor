@@ -1,0 +1,60 @@
+{
+  "name": "tailor-ai",
+  "version": "0.1.0",
+  "description": "AI coding-agent engineering framework and skill for disciplined, reuse-first software engineering.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "tailor": "dist/cli/bin.js"
+  },
+  "files": [
+    "dist",
+    "skills",
+    "templates",
+    "adapters",
+    "AGENTS.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "benchmark": "node --loader ts-node/esm benchmarks/scripts/run-benchmarks.js",
+    "start": "node dist/cli/bin.js",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "ai",
+    "coding-agent",
+    "agent-skills",
+    "skill",
+    "codex",
+    "claude",
+    "cursor",
+    "gemini",
+    "software-engineering",
+    "code-reuse",
+    "project-memory",
+    "architecture-decision-records"
+  ],
+  "author": "Tailor Contributors",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "js-yaml": "^4.1.0",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.13.4",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.6"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

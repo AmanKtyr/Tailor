@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build Output
+dist/
+build/
+*.tsbuildinfo
+
+# Logs & Environment
+*.log
+.env
+.env.local
+.env.*.local
+
+# Coverage & Testing
+coverage/
+.nyc_output/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temp
+tmp/
+temp/
+scratch/
