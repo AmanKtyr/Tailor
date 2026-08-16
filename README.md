@@ -2,6 +2,8 @@
 
 # TAILOR
 
+<img src="./assets/tailor-mascot.jpg" alt="Tailor - Reuse-First AI Engineering" width="800" style="border-radius: 8px; margin: 16px 0;" />
+
 ### *Make the code fit the project.*
 
 An open-source software engineering discipline framework and skill for AI coding assistants (Claude Code, Cursor, OpenAI Codex, and Gemini CLI / Antigravity) created by **Aman Katyar** ([@AmanKtyr](https://github.com/AmanKtyr)).
