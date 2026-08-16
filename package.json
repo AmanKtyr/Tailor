@@ -1,5 +1,5 @@
 {
-  "name": "tailor-ai",
+  "name": "@amanktyr/tailor",
   "version": "0.1.0",
   "description": "AI coding-agent engineering framework and skill for disciplined, reuse-first software engineering.",
   "type": "module",

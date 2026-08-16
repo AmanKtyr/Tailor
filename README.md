@@ -100,12 +100,12 @@ Tailor includes lightweight adapters under `adapters/` for effortless integratio
 
 ```bash
 # Global CLI installation
-npm install -g tailor-ai
+npm install -g @amanktyr/tailor
 
-# Or run directly via npx
-npx tailor init
-npx tailor analyze
-npx tailor review
+# Or run directly via npx without installing
+npx @amanktyr/tailor init
+npx @amanktyr/tailor analyze
+npx @amanktyr/tailor review
 ```
 
 ---
