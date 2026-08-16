@@ -1,21 +1,66 @@
 ---
 name: security
-description: Enforces security engineering principles, OWASP Top 10 defenses, secret protection, safe cryptographic usage, and runs security audits.
+description: Enforces security engineering principles, OWASP Top 10 defenses, zero hardcoded secrets, parameterized queries, and runs security audits.
 ---
 
 # Security Engineering Skill
 
-Activate this skill when handling authentication, authorization, input validation, secret management, database queries, cryptography, or security audits (`/security-audit` or `tailor security`).
+Activate this skill when dealing with authentication, authorization, secret management, database queries, cryptography, external network calls, or security audits (`/security-audit`).
 
-## 1. Core Security Invariants
-- **Input Validation & Sanitization:** Validate all data at system boundaries (Zod, Pydantic, JSON Schema).
-- **Zero Hardcoded Secrets:** Never commit API keys, private keys, database passwords, or JWT secrets to source code. Use environment variables.
-- **Injection Defenses:** Always use parameterized queries or type-safe ORMs. NEVER concatenate raw user input into SQL queries, OS shell commands, or LDAP lookups.
-- **Authentication & RBAC:** Enforce server-side authorization checks on all mutating API endpoints and data queries.
-- **XSS & Output Encoding:** Avoid raw HTML interpolation (`dangerouslySetInnerHTML`, `innerHTML`) without DOMPurify sanitization.
-- **Transport Security:** Enforce strict TLS certificate verification in production.
+---
 
-## 2. Security Audit Workflow
-- Inspect project configurations and dependency manifests.
-- Scan for hardcoded keys, disabled TLS flags, and dangerous APIs (`eval()`, unsafe shell executions).
-- Categorize findings into CRITICAL, HIGH, MEDIUM, LOW, and INFO with actionable remediation.
+## 1. Quick Automated Secret & Pattern Scanner
+
+Before committing code, execute the bundled secret scanner script:
+
+```bash
+# Run deterministic secret and vulnerability checks
+node skills/security/scripts/scan-secrets.js
+```
+
+---
+
+## 2. Invariant Rules & Vulnerability Defenses
+
+### A. Zero Hardcoded Secrets (CRITICAL)
+* **Violation:**
+  ```ts
+  const STRIPE_SECRET = "sk_live_51Mz..."; // INSECURE
+  ```
+* **Remediation:**
+  ```ts
+  const STRIPE_SECRET = process.env.STRIPE_SECRET_KEY;
+  if (!STRIPE_SECRET) throw new Error("Missing STRIPE_SECRET_KEY in environment");
+  ```
+
+### B. Injection Defenses (CRITICAL)
+* **Violation (Raw String Concatenation):**
+  ```ts
+  db.query(`SELECT * FROM users WHERE email = '${userEmail}'`); // INSECURE
+  ```
+* **Remediation (Parameterized Query / ORM):**
+  ```ts
+  db.query('SELECT * FROM users WHERE email = $1', [userEmail]); // SECURE
+  ```
+
+### C. Safe Deserialization & Code Execution (CRITICAL)
+* **Violation:** `eval(data)`, `child_process.exec(userInput)`
+* **Remediation:** `JSON.parse(data)`, `child_process.execFile(cmd, [args], { shell: false })`
+
+### D. Strict Server-Side Authorization (HIGH)
+* Never rely on client-side hiding alone (`{isAdmin && <AdminPanel />}`).
+* Enforce authentication and role checks inside backend route handlers / server actions before data mutations.
+
+---
+
+## 3. Security Audit Output Format
+
+When generating security audit reports (`/security-audit`):
+
+```markdown
+### [CRITICAL] SEC-001: Hardcoded AWS Access Key
+- **Location:** `src/config/aws.ts:14`
+- **Evidence:** `const AWS_KEY = "AKIA..."`
+- **Impact:** Direct infrastructure compromise if committed.
+- **Remediation:** Move key to AWS Secrets Manager or environment variables.
+```

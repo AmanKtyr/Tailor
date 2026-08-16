@@ -1,24 +1,45 @@
 ---
 name: dependency-governance
-description: Evaluates new and existing dependencies for supply-chain risk, security advisories, license compliance, maintenance status, and unnecessary bloat.
+description: Evaluates new and installed packages for supply-chain security, maintenance status, license compatibility, and rejects trivial bloat.
 ---
 
 # Dependency Governance Skill
 
-Activate this skill before installing, upgrading, or recommending any external package or dependency.
+Activate this skill before installing, proposing, or upgrading any external dependency (`/dependency-check <package>`).
 
-## 1. Pre-Installation Gate
-Before running `npm install`, `pip install`, `cargo add`, or equivalent:
-1. **Redundancy Check:** Does an installed dependency already provide this capability? (e.g. `lodash` vs `ramda`, `nanoid` vs `uuid`).
-2. **Framework Native Check:** Does the runtime or standard library provide it? (e.g. `crypto.randomUUID()` vs `uuid`, native `fetch` vs `axios`, `Intl` vs `moment`).
-3. **Trivial Micro-Package Check:** Reject packages for trivial logic like `is-odd`, `is-number`, `left-pad`. Use native language primitives.
+---
 
-## 2. Supply-Chain & Security Assessment
-Evaluate:
-- Maintenance activity: Has the package been updated recently? Is the repository active?
-- Security status: Check `npm audit`, `pip-audit`, or OSV database.
-- License compatibility: Ensure permissive open-source licenses (MIT, Apache-2.0, BSD, ISC) unless commercial/copyleft is explicitly approved.
-- Bundle & transitive weight: Avoid packages that bring hundreds of unvetted transitive dependencies.
+## 1. Automated Rejection Table for Trivial Micro-Packages
 
-## 3. Dependency Documentation
-Record new approved dependencies in `.ai/DEPENDENCIES.md` with version, purpose, and security status.
+Always reject external micro-packages for operations easily handled by standard language primitives:
+
+| Proposed Package | Recommendation | Preferred Native Alternative |
+| :--- | :--- | :--- |
+| `is-odd` / `is-even` | **REJECT** | `(n % 2 !== 0)` / `(n % 2 === 0)` |
+| `left-pad` | **REJECT** | `String.prototype.padStart()` |
+| `is-number` | **REJECT** | `typeof x === 'number'` |
+| `clone-deep` | **REJECT** | `structuredClone(obj)` |
+| `deepmerge` | **REJECT** | Native object spread `{...a, ...b}` or small utility |
+
+---
+
+## 2. Redundancy & Modern Alternative Checks
+
+| Proposed Package | Check Existing In Workspace | Modern Framework Alternative |
+| :--- | :--- | :--- |
+| `axios` | Check if `got`, `node-fetch`, or native `fetch` exists | Native global `fetch()` |
+| `moment` | Check if `date-fns`, `dayjs`, or `luxon` exists | `date-fns` or `Intl.DateTimeFormat` |
+| `uuid` | Check if `nanoid` or `cuid` exists | `crypto.randomUUID()` |
+| `crypto-js` | Check if native `crypto` exists | `node:crypto` or Web Crypto API |
+
+---
+
+## 3. Supply-Chain Security Checklist
+
+Before approving any non-trivial package:
+1. **Security Vulnerabilities:** Run `npm audit` or `pip-audit`.
+2. **Maintenance Activity:** Confirm recent releases within the past 12 months.
+3. **Permitted Open Source Licenses:**
+   - Allowed: `MIT`, `Apache-2.0`, `BSD-2-Clause`, `BSD-3-Clause`, `ISC`, `0BSD`, `CC0-1.0`.
+   - Flag for review: `GPL-3.0`, `AGPL-3.0`, `SSPL` (copyleft / network copyleft implications).
+4. **Document Decision:** Record new packages in `.ai/DEPENDENCIES.md`.
