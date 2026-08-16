@@ -17,6 +17,10 @@
     "README.md",
     "LICENSE"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AmanKtyr/Tailor.git"
+  },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",

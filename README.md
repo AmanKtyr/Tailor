@@ -70,26 +70,68 @@ Tailor maintains a strict separation of concerns:
 
 ---
 
-## Installation & Distribution
+## Quick Install Guide for Any Coding Agent
 
-### 1. Install as an Agent Skill (Codex / Open Agent Ecosystem)
-Using standard agent skill distribution tooling:
+Tailor follows the open standard `SKILL.md` specification and works seamlessly across **OpenAI Codex**, **Claude Code**, **Cursor**, **Gemini CLI / Antigravity**, **OpenCode**, and other AI coding agents.
 
+### 1. Install via `skills` CLI (Universal Agent Installer)
+
+The easiest way to install Tailor skills into your workspace or globally on your machine:
+
+#### From GitHub:
 ```bash
-# Add Tailor skills to your workspace
-npx skills add tailor-ai/tailor
+# Install all Tailor skills into your active project
+npx skills add AmanKtyr/Tailor
 
-# Or add a specific specialized skill
-npx skills add tailor-ai/tailor --skill tailor-core
+# Or install globally across all projects on your machine (-g)
+npx skills add AmanKtyr/Tailor -g
+
+# Install only the core skill
+npx skills add AmanKtyr/Tailor --skill tailor-core
 ```
 
-### 2. Install Tailor CLI via npm
+#### From Local Repository / Directory:
 ```bash
-# Global installation
+# Inside the cloned Tailor folder (install to current project)
+npx skills add .
+
+# Install globally to your machine from local path
+npx skills add /path/to/Tailor -g
+
+# Install specific individual skill locally
+npx skills add ./skills/tailor-core
+npx skills add ./skills/reuse-first
+npx skills add ./skills/security
+```
+
+---
+
+### 2. Platform-Specific Setup
+
+Tailor includes lightweight adapters under `adapters/` for effortless integration:
+
+| Agent / Platform | Integration Method | What It Does |
+| :--- | :--- | :--- |
+| **Codex** | `npx skills add <repo>` | Places skills in `.agents/skills/` for automatic resolution |
+| **Claude Code** | `CLAUDE.md` + `.ai/INDEX.md` | Guides Claude to progressive disclosure and reuse-first ladder |
+| **Cursor** | `.cursorrules` + `.ai/INDEX.md` | Provides Cursor Composer with project memory pointers |
+| **Gemini / Antigravity** | `GEMINI.md` / Customizations | Connects Gemini IDE directly to `.ai/` and `skills/` |
+| **OpenCode / Windsurf** | Standard `skills/` | Native discovery via open skill conventions |
+
+---
+
+### 3. Install Tailor CLI & Memory Generator (npm)
+
+You can also use Tailor's deterministic engine and CLI commands directly:
+
+```bash
+# Global CLI installation
 npm install -g tailor-ai
 
-# Or local dev dependency
-npm install --save-dev tailor-ai
+# Or run directly with npx without installing
+npx tailor init
+npx tailor analyze
+npx tailor review
 ```
 
 ---
