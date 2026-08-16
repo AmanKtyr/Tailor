@@ -1,94 +1,77 @@
 # Tailor Installation Guide for Any Coding Agent
 
-This guide shows how to install Tailor skills and tooling into any AI coding environment.
+Tailor supports **all major AI coding agents** via the open standard `skills` CLI, as well as direct terminal CLI usage via **NPM**.
 
 ---
 
-## 1. Universal Agent Installation (`npx skills add`)
+## 📦 1. Universal Agent Installation (`skills` CLI)
 
-The `skills` CLI works with any agent supporting the open `SKILL.md` format (OpenAI Codex, Claude Code, Cursor, Gemini CLI, OpenCode, etc.).
-
-### Option A: From Local Cloned Folder
-If you have cloned the Tailor repository on your machine:
+One single command installs Tailor across **all AI coding assistants** (Claude Code, Cursor, OpenAI Codex, Gemini CLI, Windsurf, OpenCode):
 
 ```bash
-# Inside the Tailor directory: install to current workspace
-npx skills add .
+# Install Tailor into your active project workspace
+npx skills add AmanKtyr/Tailor -y
 
-# Install globally to your machine (available across all projects)
-npx skills add . -g
+# Or install globally across all projects on your machine (-g)
+npx skills add AmanKtyr/Tailor -g -y
 
-# Install a specific specialized skill
-npx skills add ./skills/tailor-core
-npx skills add ./skills/reuse-first
-npx skills add ./skills/security
+# Install only the core skill
+npx skills add AmanKtyr/Tailor --skill tailor-core -y
 ```
 
-### Option B: From GitHub
-Once published to GitHub:
-
-```bash
-# Install all skills into your active project
-npx skills add AmanKtyr/Tailor
-
-# Install globally
-npx skills add AmanKtyr/Tailor -g
-
-# Install a specific skill
-npx skills add AmanKtyr/Tailor --skill tailor-core
-```
+| Supported Agent | Behavior |
+| :--- | :--- |
+| 🟣 **Claude Code** | Automatically loads `.ai/INDEX.md` and enforces Reuse-First ladder |
+| 🔵 **Cursor IDE** | Guides Cursor Composer & Chat via `.cursorrules` and project memory |
+| 🟢 **OpenAI Codex** | Resolved automatically from `.agents/skills/` |
+| 🟡 **Gemini CLI / Antigravity** | Discovers skills directly via workspace integration |
+| 🌊 **Windsurf / OpenCode** | Native discovery via standard `SKILL.md` frontmatter |
 
 ---
 
-## 2. Agent-Specific Instructions
+## 💻 2. Installation via NPM (CLI & Local Project)
 
-### OpenAI Codex
-Codex automatically detects skills located in `.agents/skills/` or `skills/`:
+If you want to use Tailor's deterministic CLI tools (`analyze`, `memory`, `security`, `doctor`, `review`) in your terminal or CI/CD pipelines:
+
+### Global CLI Installation:
 ```bash
-npx skills add <source>
-```
+npm install -g @amanktyr/tailor
 
-### Claude Code
-1. Run `tailor init` to generate `.ai/` and `CLAUDE.md`.
-2. Claude Code will automatically consult `.ai/INDEX.md` and follow the Reuse-First engineering ladder.
-
-### Cursor IDE
-1. Run `tailor init` to generate `.cursorrules` pointing to `.ai/INDEX.md`.
-2. Cursor Composer and Chat will adhere to your architecture decisions and conventions.
-
-### Gemini CLI / Antigravity
-1. Run `tailor init` to generate `GEMINI.md` and `.ai/` project memory.
-2. Skills in `skills/` or `.agents/skills/` are discovered automatically.
-
-### OpenCode & Windsurf
-1. Skills are placed under `skills/` or `.skills/` adhering to standard frontmatter conventions.
-
----
-
-## 3. Tailor CLI Commands
-
-```bash
-# Initialize project memory & agent contracts
+# Now run tailor commands anywhere:
 tailor init
-
-# Inspect technologies and reusable component catalog
 tailor analyze
-
-# Synchronize memory after code modifications
-tailor memory update
-
-# Check for memory drift
-tailor memory drift
-
-# Run security & secret leak audit
-tailor security
-
-# Evaluate a proposed dependency before installing
-tailor dependencies --check <package-name>
-
-# Comprehensive engineering review
 tailor review
-
-# System & skill diagnostics
+tailor security
 tailor doctor
+```
+
+### Local Project Installation (Dev Dependency):
+```bash
+# Install into your project
+npm install --save-dev @amanktyr/tailor
+
+# Run via npx without global install:
+npx @amanktyr/tailor init
+npx @amanktyr/tailor analyze
+npx @amanktyr/tailor review
+```
+
+### Run Directly without Installing:
+```bash
+npx @amanktyr/tailor init
+```
+
+---
+
+## 📂 3. Installation from Local Cloned Repository
+
+If you cloned this repository locally:
+```bash
+# Inside the cloned Tailor directory:
+npx skills add . -y
+
+# Install a specific individual skill only:
+npx skills add ./skills/tailor-core -y
+npx skills add ./skills/reuse-first -y
+npx skills add ./skills/security -y
 ```
