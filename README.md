@@ -4,79 +4,55 @@
 
 ### *Make the code fit the project.*
 
-An AI coding-agent engineering framework and skill layer that makes coding agents behave like disciplined, experienced senior software engineers.
+An open-source software engineering discipline framework and skill for AI coding assistants (Claude Code, Cursor, OpenAI Codex, and Gemini CLI / Antigravity) created by **Aman Katyar** ([@AmanKtyr](https://github.com/AmanKtyr)).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node: >=18](https://img.shields.io/badge/Node-%3E%3D18.0.0-green.svg)](package.json)
 [![TypeScript: Strict](https://img.shields.io/badge/TypeScript-Strict-blue.svg)](tsconfig.json)
-[![Tests: Vitest](https://img.shields.io/badge/Tests-Passing-brightgreen.svg)](tests/)
+[![Tests: Vitest](https://img.shields.io/badge/Tests-18%20Passing-brightgreen.svg)](tests/)
 [![Benchmarks: 100%](https://img.shields.io/badge/Benchmarks-100%25-success.svg)](benchmarks/)
 
 ---
 
 </div>
 
-## What is Tailor?
+## Overview
 
-Tailor is **NOT** a chatbot, not a framework-specific generator, and not a giant monolithic prompt.
-
-Tailor is a **modular software engineering layer for AI coding agents** (OpenAI Codex, Claude Code, Cursor, Gemini CLI / Antigravity, OpenCode, and any agent supporting the open `SKILL.md` standard).
-
-Tailor guides AI agents to:
-* **Understand before implementing:** Read compact project memory before touching code.
-* **Reuse-first engineering:** Search existing components, hooks, utilities, services, and CSS before writing duplicate code.
-* **Intelligent project bootstrapping (`/init-project` or `tailor init`):** Ask product discovery questions, evaluate developer expertise, recommend appropriate technology stacks, and write Architecture Decision Records (ADRs).
-* **Context-efficient project memory (`.ai/`):** Maintain a compact, evidence-based AI memory layer (`INDEX.md`, `STACK.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `UI.md`, `API.md`, `DATABASE.md`, `DEPENDENCIES.md`, `SECURITY.md`, `AGENT-CONTRACT.md`) to prevent redundant repo scans and save LLM tokens via progressive disclosure.
-* **Automated drift detection (`tailor memory drift`):** Compare active source code and package manifests against project memory to detect and repair stale documentation.
-* **Dependency governance (`tailor dependencies`):** Evaluate proposed packages for supply-chain risk, maintenance status, license compatibility, and reject trivial micro-package bloat (`is-odd`, `left-pad`).
-* **Built-in security audits (`tailor security`):** Scan for hardcoded keys/secrets, SQL injections, disabled TLS flags, dangerous `eval()`, and CVEs.
-* **Challenge bad approaches:** Act as a senior engineer by pushing back against unnecessary architectural complexity or redundant systems instead of blindly generating code.
+The **Tailor skill** is an open-source productivity and engineering discipline plugin for AI coding assistants (like Claude Code, Cursor, Codex, and Gemini) created by **Aman Katyar** ([@AmanKtyr](https://github.com/AmanKtyr)). It forces AI coding agents to act like disciplined senior software engineers, eliminating bloated, over-engineered code, enforcing a strict reuse-first engineering ladder, maintaining compact AI project memory (`.ai/`), and rejecting unnecessary dependencies and security anti-patterns.
 
 ---
 
-## Core Engineering Ladder (Reuse-First)
+## How Tailor Works
 
-Before writing any new implementation or adding dependencies, Tailor enforces this strict order:
-
-```
-1. Existing project code
-   └─ Search existing components, hooks, utilities, and services
-2. Existing shared abstraction
-   └─ Extend or parameterize an existing shared helper
-3. Framework-native capabilities
-   └─ Use standard framework APIs (Next.js, Django, standard library)
-4. Existing installed dependency
-   └─ Reuse packages already present in package.json / requirements.txt
-5. Trusted external dependency
-   └─ Evaluate maintenance, license, and security before installing
-6. New implementation
-   └─ Build from scratch only when steps 1–5 are exhausted
-```
+* **The Reuse-First Decision Ladder:** Forces the AI agent to search existing project components, utilities, hooks, and CSS before drafting new code, cutting down redundant implementations.
+* **Progressive Project Memory (`.ai/`):** Generates and maintains compact, evidence-based project memory (`INDEX.md`, `STACK.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `SECURITY.md`) to save up to 80% repetitive LLM context tokens.
+* **Automated Drift Detection:** Continuously compares active source code and package manifests against project memory to detect and repair stale documentation automatically.
+* **Dependency Governance:** Rejects trivial micro-package bloat (like `is-odd`, `left-pad`) and evaluates supply-chain security, maintenance status, and license compatibility before installing packages.
+* **Security & Vulnerability Defenses:** Statically detects hardcoded secrets/API keys, SQL string concatenation, disabled TLS flags, and dangerous `eval()` calls.
+* **Efficiency & Token Gains:** Benchmarks demonstrate 100% accurate component reuse matching and significant reduction in generated code volume and LLM token consumption.
 
 ---
 
-## Architecture & Responsibilities
+## Key Commands & Features
 
-Tailor maintains a strict separation of concerns:
-
-| Layer | Location | Purpose |
-| :--- | :--- | :--- |
-| **SKILLS** | `skills/*/SKILL.md` | Agent behaviors, engineering rules, and operational constraints |
-| **PROJECT MEMORY** | `.ai/*.md` & `.ai/project.json` | Project-specific facts, technology stack, ADRs, conventions, and contracts |
-| **TOOLS / CLI** | `src/` & `dist/` | Deterministic indexing, AST/file search, security rules, drift detection, and audits |
-| **ADAPTERS** | `adapters/` | Seamless bridge for Codex, Claude Code, Cursor, Gemini, and OpenCode |
-| **TEMPLATES** | `templates/project-memory/` | Standardized templates for generating clean project memory |
-| **BENCHMARKS** | `benchmarks/` | Measurable test suites proving that Tailor prevents code bloat and duplication |
+| Command | Action & What It Does |
+| :--- | :--- |
+| `tailor init` / `/init-project` | Conducts product discovery, developer expertise assessment, stack recommendation, and ADR generation |
+| `tailor analyze` / `/analyze-project` | Deterministically inspects workspace signals, frameworks, databases, and reusable component catalog |
+| `tailor memory update` | Synchronizes and regenerates `.ai/` project memory layer based on current source code state |
+| `tailor memory drift` | Detects divergence between active code and recorded project memory documents |
+| `tailor security` / `/security-audit` | Runs static security rules, credential leak checks, and dependency vulnerability scans |
+| `tailor dependencies --check <pkg>` | Evaluates proposed packages for bloat, redundancy, and license compatibility |
+| `tailor review` / `/review` | Runs holistic architecture, reuse, security, and quality review gates |
+| `tailor doctor` | Diagnoses Node runtime, Git status, memory integrity, and skill frontmatter |
 
 ---
 
 ## Quick Install Guide for Any Coding Agent
 
-Tailor follows the open standard `SKILL.md` specification and works seamlessly across **OpenAI Codex**, **Claude Code**, **Cursor**, **Gemini CLI / Antigravity**, **OpenCode**, and other AI coding agents.
+Tailor follows the open standard `SKILL.md` specification and works out-of-the-box across **OpenAI Codex**, **Claude Code**, **Cursor**, **Gemini CLI / Antigravity**, and **OpenCode**.
 
 ### 1. Install via `skills` CLI (Universal Agent Installer)
-
-The easiest way to install Tailor skills into your workspace or globally on your machine:
 
 #### From GitHub:
 ```bash
@@ -106,29 +82,27 @@ npx skills add ./skills/security
 
 ---
 
-### 2. Platform-Specific Setup
+### 2. Platform-Specific Integration
 
 Tailor includes lightweight adapters under `adapters/` for effortless integration:
 
 | Agent / Platform | Integration Method | What It Does |
 | :--- | :--- | :--- |
-| **Codex** | `npx skills add <repo>` | Places skills in `.agents/skills/` for automatic resolution |
-| **Claude Code** | `CLAUDE.md` + `.ai/INDEX.md` | Guides Claude to progressive disclosure and reuse-first ladder |
-| **Cursor** | `.cursorrules` + `.ai/INDEX.md` | Provides Cursor Composer with project memory pointers |
+| **Codex** | `npx skills add AmanKtyr/Tailor` | Discovers skills in `.agents/skills/` for automatic resolution |
+| **Claude Code** | `CLAUDE.md` + `.ai/INDEX.md` | Directs Claude to progressive disclosure and reuse-first ladder |
+| **Cursor** | `.cursorrules` + `.ai/INDEX.md` | Connects Cursor Composer with project memory pointers |
 | **Gemini / Antigravity** | `GEMINI.md` / Customizations | Connects Gemini IDE directly to `.ai/` and `skills/` |
-| **OpenCode / Windsurf** | Standard `skills/` | Native discovery via open skill conventions |
+| **OpenCode / Windsurf** | Standard `skills/` | Native discovery via open skill frontmatter conventions |
 
 ---
 
-### 3. Install Tailor CLI & Memory Generator (npm)
-
-You can also use Tailor's deterministic engine and CLI commands directly:
+### 3. Install Tailor CLI (npm)
 
 ```bash
 # Global CLI installation
 npm install -g tailor-ai
 
-# Or run directly with npx without installing
+# Or run directly via npx
 npx tailor init
 npx tailor analyze
 npx tailor review
@@ -136,43 +110,7 @@ npx tailor review
 
 ---
 
-## Quick Start & CLI Commands
-
-```bash
-# 1. Initialize Tailor project memory in your workspace
-tailor init
-
-# 2. Inspect technologies, signals, and reusable component catalog
-tailor analyze
-
-# 3. Synchronize / update .ai/ project memory after code changes
-tailor memory update
-
-# 4. Check for documentation & architecture drift
-tailor memory drift
-
-# 5. Validate integrity of project memory documents
-tailor memory validate
-
-# 6. Audit installed dependencies or evaluate a proposed new package
-tailor dependencies
-tailor dependencies --check is-odd
-
-# 7. Run static security & secret leak checks
-tailor security
-
-# 8. Run full architectural and code quality review
-tailor review
-
-# 9. Diagnose system, environment, skill frontmatter, and configuration
-tailor doctor
-```
-
-All commands support `--json` for machine-readable output in CI/CD pipelines or IDE extensions, and `--quiet` for silent script execution.
-
----
-
-## Modular Skill System
+## Modular Skill Architecture
 
 Tailor provides 15 specialized skills adhering to the open `SKILL.md` standard with valid YAML frontmatter:
 
@@ -194,7 +132,7 @@ Tailor provides 15 specialized skills adhering to the open `SKILL.md` standard w
 
 ---
 
-## Benchmarks
+## Benchmarks & Measurable Results
 
 Tailor includes an automated benchmark suite (`benchmarks/scripts/run-benchmarks.js`) running across 5 real fixture codebases:
 * `nextjs-app` (Next.js 14, React 18, Tailwind CSS, Vitest)
@@ -203,11 +141,6 @@ Tailor includes an automated benchmark suite (`benchmarks/scripts/run-benchmarks
 * `dotnet-api` (ASP.NET Core, C# .NET 8)
 * `messy-monolith` (Express, legacy dependencies, duplicated user queries, leaked AWS key, eval)
 
-Run benchmarks:
-```bash
-npm run benchmark
-```
-
 **Benchmark Results:**
 * Project Signal Detection: **100% accurate** across Next.js, Django, React, ASP.NET Core, and Express.
 * Semantic Reuse Matching: **100% match** for user request `modal` -> existing `Dialog`, and `fetchUser` -> existing `getUser`.
@@ -215,11 +148,14 @@ npm run benchmark
 * Security Detection: **100% detection** of hardcoded AWS credentials, SQL string concatenation, and dangerous `eval()`.
 * Task Classification: **100% accurate** scaling across TRIVIAL, SMALL, MEDIUM, LARGE, and CRITICAL.
 
+Run benchmarks locally:
+```bash
+npm run benchmark
+```
+
 ---
 
 ## Configuration (`.tailor.json`)
-
-Configure project-specific profiles and thresholds:
 
 ```json
 {
@@ -258,23 +194,12 @@ Configure project-specific profiles and thresholds:
 ## Contributing & Development
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/tailor-ai/tailor.git
-cd tailor
-
-# 2. Install dependencies
+git clone https://github.com/AmanKtyr/Tailor.git
+cd Tailor
 npm install
-
-# 3. Build TypeScript
 npm run build
-
-# 4. Run test suite
 npm test
-
-# 5. Run benchmark suite
 npm run benchmark
-
-# 6. Run diagnostics
 node dist/cli/bin.js doctor
 ```
 
@@ -282,4 +207,4 @@ node dist/cli/bin.js doctor
 
 ## License
 
-[MIT](LICENSE) © Tailor Contributors
+[MIT](LICENSE) © [Aman Katyar](https://github.com/AmanKtyr) & Tailor Contributors
