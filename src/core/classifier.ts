@@ -23,9 +23,9 @@ const LARGE_KEYWORDS = [
 ];
 
 const MEDIUM_KEYWORDS = [
-  'new feature', 'database model', 'create model', 'add model', 'refactor duplicate',
+  'feature', 'checkout', 'database model', 'create model', 'add model', 'refactor duplicate',
   'component and api', 'crud system', 'service layer', 'hook and component',
-  'user profile page', 'form with validation', 'integration', 'state management',
+  'user profile', 'form with validation', 'integration', 'state management',
   'router system', 'caching layer'
 ];
 
