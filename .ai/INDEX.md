@@ -1,9 +1,9 @@
 # AI Project Index
 
-**Project:** tailor-ai  
+**Project:** @amanktyr/tailor  
 **Type:** cli  
 **Primary Language:** TypeScript  
-**Last Verified:** 2026-08-16  
+**Last Verified:** 2026-08-18  
 
 ## Read First
 1. [`PROJECT.md`](PROJECT.md) — High-level product overview and objectives.

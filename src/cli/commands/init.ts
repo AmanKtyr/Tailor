@@ -17,6 +17,7 @@ export interface InitCommandOptions {
 
 export async function runInitCommand(workspaceRoot: string, options: InitCommandOptions): Promise<void> {
   logger.configure({ quiet: options.quiet, verbose: options.verbose, json: options.json });
+  logger.banner();
   logger.info(`Initializing Tailor in workspace: ${workspaceRoot}`);
 
   const indexer = new ProjectIndexer();

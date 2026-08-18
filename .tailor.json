@@ -1,9 +1,18 @@
 {
-  "profile": "library",
+  "profile": "cli",
+  "intensity": "balanced",
+  "locale": "en",
   "memory": {
     "enabled": true,
     "directory": ".ai",
     "autoUpdate": false
+  },
+  "specs": {
+    "enabled": true,
+    "directory": "specs"
+  },
+  "adapters": {
+    "autoSync": true
   },
   "security": {
     "level": "high",

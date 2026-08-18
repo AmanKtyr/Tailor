@@ -1,6 +1,6 @@
 # Technology Stack
 
-**Verified on:** 2026-08-16  
+**Verified on:** 2026-08-18  
 **Confidence:** HIGH  
 
 | Layer | Technology | Status | Evidence |
@@ -12,4 +12,4 @@
 | **Backend** | N/A | NONE | No backend manifest |
 | **Database / ORM** | N/A | NONE | None |
 | **Testing** | Vitest | CONFIRMED | vitest dependency |
-| **DevOps / CI** | N/A | CONFIRMED | None |
+| **DevOps / CI** | GitHub Actions | CONFIRMED | GitHub Actions workflows detected |

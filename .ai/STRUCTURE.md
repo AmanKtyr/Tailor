@@ -2,7 +2,7 @@
 
 ## Important Directories
 ```
-tailor-ai/
+@amanktyr/tailor/
 ├── src/                  # Application source code
 ├── tests/                # Automated test suites
 ├── .ai/                  # Project memory layer & AI index

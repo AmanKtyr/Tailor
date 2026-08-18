@@ -2,10 +2,10 @@
 
 ## ADR-001 — Technology Stack & Baseline Architecture
 **Status:** Accepted  
-**Date:** 2026-08-16  
+**Date:** 2026-08-18  
 
 ### Context
-Initial project bootstrapping and architecture establishment for tailor-ai.
+Initial project bootstrapping and architecture establishment for @amanktyr/tailor.
 
 ### Decision
 Use TypeScript.

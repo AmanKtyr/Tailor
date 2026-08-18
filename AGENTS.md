@@ -1,10 +1,9 @@
-# AI Agent Guidance (Powered by Tailor)
+# Agent Instructions for @amanktyr/tailor
 
-This repository uses **Tailor** for project intelligence, Spec-Driven Development, and Reuse-First engineering discipline.
+This repository uses **Tailor** for project intelligence and memory.
 
-## Core Directives
-1. **Constitution & Project Memory First:** Always consult [`.ai/CONSTITUTION.md`](.ai/CONSTITUTION.md) and [`.ai/INDEX.md`](.ai/INDEX.md) before making non-trivial changes.
-2. **Reuse-First Decision Ladder:** Always search existing components, hooks, and utilities before writing new code.
-3. **Pragmatic Simplicity:** Prefer standard library and native platform APIs over trivial external dependencies.
-4. **Spec-Driven Discipline:** For non-trivial features, follow the specification lifecycle (`specs/<id>/spec.md` -> `plan.md` -> `tasks.md`).
-5. **Truthful Verification:** Verify changes with targeted tests; never fabricate test passes.
+## Instructions
+1. Read [`.ai/INDEX.md`](.ai/INDEX.md) before making non-trivial modifications.
+2. Follow the **Reuse-First** engineering ladder: reuse existing components, utilities, and abstractions.
+3. Respect architectural decisions in [`.ai/DECISIONS.md`](.ai/DECISIONS.md).
+4. Run targeted tests and verify changes before completion.

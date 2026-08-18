@@ -23,14 +23,27 @@ export class ProjectDetector {
   ): ProjectSignals {
     this.evidence = {};
 
-    // Filter out benchmarks/fixtures and tests/fixtures when detecting the parent project
-    const activeFiles = files.filter(
-      (f) => !f.relativePath.startsWith('benchmarks/fixtures') && !f.relativePath.startsWith('tests/fixtures')
-    );
+    // Determine if scanning a fixture directory directly
+    const isDirectFixtureScan =
+      workspaceRoot.includes('benchmarks/fixtures') ||
+      workspaceRoot.includes('benchmarks\\fixtures') ||
+      workspaceRoot.includes('tests/fixtures') ||
+      workspaceRoot.includes('tests\\fixtures');
 
-    const activeManifests = manifests.filter(
-      (m) => !m.filePath.includes('benchmarks/fixtures') && !m.filePath.includes('tests/fixtures')
-    );
+    // Filter out benchmarks/fixtures and tests/fixtures when detecting the parent project
+    const activeFiles = isDirectFixtureScan
+      ? files
+      : files.filter((f) => {
+          const norm = f.relativePath.replace(/\\/g, '/');
+          return !norm.startsWith('benchmarks/fixtures') && !norm.startsWith('tests/fixtures');
+        });
+
+    const activeManifests = isDirectFixtureScan
+      ? manifests
+      : manifests.filter((m) => {
+          const relPath = path.relative(workspaceRoot, m.filePath).replace(/\\/g, '/');
+          return !relPath.startsWith('benchmarks/fixtures') && !relPath.startsWith('tests/fixtures');
+        });
 
     const allDeps: Record<string, string> = {};
     for (const m of activeManifests) {

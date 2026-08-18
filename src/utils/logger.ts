@@ -17,6 +17,19 @@ class Logger {
     if (opts.json !== undefined) this.json = opts.json;
   }
 
+  public banner(): void {
+    if (this.quiet || this.json) return;
+    console.log(pc.cyan(`
+  ████████╗ █████╗ ██╗██╗      ██████╗ ██████╗ 
+  ╚══██╔══╝██╔══██╗██║██║     ██╔═══██╗██╔══██╗
+     ██║   ███████║██║██║     ██║   ██║██████╔╝
+     ██║   ██╔══██║██║██║     ██║   ██║██╔══██╗
+     ██║   ██║  ██║██║███████╗╚██████╔╝██║  ██║
+     ╚═╝   ╚═╝  ╚═╝╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝`) +
+      pc.dim('\n     Make the code fit the project — with zero waste.\n')
+    );
+  }
+
   public info(msg: string): void {
     if (this.quiet || this.json) return;
     console.log(pc.cyan('ℹ ') + msg);

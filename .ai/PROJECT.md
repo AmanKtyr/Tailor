@@ -1,14 +1,15 @@
 # Project Overview
 
 ## Product Summary
-- **Name:** tailor-ai
+- **Name:** @amanktyr/tailor
 - **Profile:** cli
-- **Summary:** tailor-ai (cli) built with TypeScript
+- **Summary:** @amanktyr/tailor (cli) built with TypeScript
 
 ## Evidence
 - **Language:** Found .ts/.tsx source files
 - **PackageManager:** package-lock.json
 - **Testing:** vitest dependency
+- **DevOps:** GitHub Actions workflows detected
 
 ## Core Objectives
 - Maintain clean, maintainable architecture.

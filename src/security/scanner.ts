@@ -21,7 +21,8 @@ export class SecurityScanner {
     const codeFiles = files.filter((f) => {
       // Don't scan fixture / test dummy secrets unless explicitly auditing the fixture directory directly
       if (!isDirectFixtureAudit) {
-        if (f.relativePath.startsWith('tests/fixtures') || f.relativePath.startsWith('benchmarks/fixtures')) {
+        const norm = f.relativePath.replace(/\\/g, '/');
+        if (norm.startsWith('tests/fixtures') || norm.startsWith('benchmarks/fixtures')) {
           return false;
         }
       }
