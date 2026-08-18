@@ -55,7 +55,7 @@ Before writing any new implementation or adding packages, work down this ladder 
 
 ## 3. The "Lazy, Not Negligent" Guardrails
 Laziness NEVER excuses skipping safety:
-* 🛡️ **Security & Validation:** Never skip input sanitization, CSRF defenses, or SQL parameterization.
-* ♿ **Accessibility:** Native elements (`<button>`, `<dialog>`) must retain proper ARIA labels and focus states.
-* 💾 **Data Integrity:** Database transactions and atomic writes must be preserved.
-* 🧪 **Testing:** Always run tests and verify exit code 0.
+* **Security & Validation:** Never skip input sanitization, CSRF defenses, or SQL parameterization.
+* **Accessibility:** Native elements (`<button>`, `<dialog>`) must retain proper ARIA labels and focus states.
+* **Data Integrity:** Database transactions and atomic writes must be preserved.
+* **Testing:** Always run tests and verify exit code 0.
