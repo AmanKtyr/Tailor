@@ -1,12 +1,24 @@
 import { ProjectProfile } from '../core/types.js';
+import { PragmatismIntensity } from '../pragmatism/types.js';
+import { SupportedLocale } from '../i18n/types.js';
 
 export interface TailorConfig {
   profile?: ProjectProfile;
+  intensity?: PragmatismIntensity;
+  locale?: SupportedLocale;
   memory?: {
     enabled?: boolean;
     directory?: string;
     autoUpdate?: boolean;
     files?: string[];
+  };
+  specs?: {
+    enabled?: boolean;
+    directory?: string;
+  };
+  adapters?: {
+    autoSync?: boolean;
+    targets?: string[];
   };
   security?: {
     level?: 'standard' | 'high' | 'strict';
@@ -34,10 +46,19 @@ export interface TailorConfig {
 
 export const DEFAULT_CONFIG: TailorConfig = {
   profile: 'generic',
+  intensity: 'balanced',
+  locale: 'en',
   memory: {
     enabled: true,
     directory: '.ai',
     autoUpdate: false,
+  },
+  specs: {
+    enabled: true,
+    directory: 'specs',
+  },
+  adapters: {
+    autoSync: true,
   },
   security: {
     level: 'high',

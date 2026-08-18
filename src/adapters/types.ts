@@ -1,4 +1,15 @@
-export type AgentPlatform = 'codex' | 'claude' | 'cursor' | 'gemini' | 'opencode' | 'generic';
+export type AgentPlatform =
+  | 'codex'
+  | 'claude'
+  | 'cursor'
+  | 'gemini'
+  | 'windsurf'
+  | 'cline'
+  | 'copilot'
+  | 'opencode'
+  | 'aider'
+  | 'zed'
+  | 'generic';
 
 export interface AdapterSyncResult {
   platform: AgentPlatform;
@@ -12,5 +23,5 @@ export interface PlatformAdapter {
   platform: AgentPlatform;
   displayName: string;
   detect(workspaceRoot: string): boolean;
-  sync(workspaceRoot: string, skillsDir: string): Promise<AdapterSyncResult>;
+  sync(workspaceRoot: string, skillsDir?: string): Promise<AdapterSyncResult>;
 }

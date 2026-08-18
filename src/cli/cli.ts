@@ -7,6 +7,10 @@ import { runSecurityCommand } from './commands/security.js';
 import { runDependenciesCommand } from './commands/dependencies.js';
 import { runReviewCommand } from './commands/review.js';
 import { runDoctorCommand } from './commands/doctor.js';
+import { runSpecCommand } from './commands/spec.js';
+import { runConstitutionCommand } from './commands/constitution.js';
+import { runMcpCommand } from './commands/mcp.js';
+import { runSyncCommand } from './commands/sync.js';
 
 export function createProgram(): Command {
   const program = new Command();
@@ -14,11 +18,13 @@ export function createProgram(): Command {
   program
     .name('tailor')
     .description(`Tailor — ${TAILOR_TAGLINE}`)
-    .version(TAILOR_VERSION);
+    .version(TAILOR_VERSION)
+    .option('--lang <locale>', 'CLI display language (en, es, zh, ja, de, hi)')
+    .option('--intensity <level>', 'Pragmatism intensity level (lite, balanced, ultra, strict)');
 
   program
     .command('init')
-    .description('Initialize Tailor project memory, agent contracts, and configuration')
+    .description('Initialize Tailor project memory, constitution, agent contracts, and configuration')
     .option('-p, --profile <profile>', 'Project profile (e.g. saas, public-web, api, library, cli)')
     .option('-n, --name <name>', 'Project name')
     .option('-y, --yes', 'Non-interactive mode with default answers')
@@ -37,6 +43,83 @@ export function createProgram(): Command {
     .option('-v, --verbose', 'Show detailed debug logs')
     .action(async (options) => {
       await runAnalyzeCommand(process.cwd(), options);
+    });
+
+  const specCmd = program
+    .command('spec')
+    .description('Manage Spec-Driven Development (SDD) lifecycle with automated reuse checks');
+
+  specCmd
+    .command('init')
+    .description('Initialize specs/ directory and generate .ai/CONSTITUTION.md')
+    .option('--json', 'Output machine-readable JSON')
+    .option('-q, --quiet', 'Suppress non-essential output')
+    .action(async (options) => {
+      await runSpecCommand(process.cwd(), 'init', undefined, options);
+    });
+
+  specCmd
+    .command('new <name>')
+    .description('Scaffold a new feature specification (specs/<id>-<name>/spec.md)')
+    .option('--title <title>', 'Human-readable feature title')
+    .option('--overview <overview>', 'Feature overview description')
+    .option('--json', 'Output machine-readable JSON')
+    .option('-q, --quiet', 'Suppress non-essential output')
+    .action(async (name, options) => {
+      await runSpecCommand(process.cwd(), 'new', name, options);
+    });
+
+  specCmd
+    .command('plan <identifier>')
+    .description('Generate reuse-first technical plan (plan.md) for a specification')
+    .option('--json', 'Output machine-readable JSON')
+    .option('-q, --quiet', 'Suppress non-essential output')
+    .action(async (identifier, options) => {
+      await runSpecCommand(process.cwd(), 'plan', identifier, options);
+    });
+
+  specCmd
+    .command('tasks <identifier>')
+    .description('Generate granular actionable task checklist (tasks.md) for a specification')
+    .option('--json', 'Output machine-readable JSON')
+    .option('-q, --quiet', 'Suppress non-essential output')
+    .action(async (identifier, options) => {
+      await runSpecCommand(process.cwd(), 'tasks', identifier, options);
+    });
+
+  specCmd
+    .command('list')
+    .description('List all feature specifications and their lifecycle status')
+    .option('--json', 'Output machine-readable JSON')
+    .action(async (options) => {
+      await runSpecCommand(process.cwd(), 'list', undefined, options);
+    });
+
+  program
+    .command('constitution')
+    .description('View or update project constitution (.ai/CONSTITUTION.md)')
+    .option('-u, --update', 'Regenerate constitution based on current config')
+    .option('--json', 'Output machine-readable JSON')
+    .option('-q, --quiet', 'Suppress non-essential output')
+    .action(async (options) => {
+      await runConstitutionCommand(process.cwd(), options);
+    });
+
+  program
+    .command('sync')
+    .description('Synchronize all 10+ AI coding agent adapters (Claude, Cursor, Codex, Gemini, Windsurf, Cline, Copilot, etc.)')
+    .option('--all', 'Synchronize all supported platforms')
+    .option('--json', 'Output machine-readable JSON')
+    .option('-q, --quiet', 'Suppress non-essential output')
+    .action(async (options) => {
+      await runSyncCommand(process.cwd(), options);
+    });
+
+  program
+    .command('mcp')
+    .description('Start Model Context Protocol (MCP) JSON-RPC server over stdio for Claude, Cursor, and Zed')
+    .action(async () => {
+      await runMcpCommand(process.cwd());
     });
 
   const memoryCmd = program

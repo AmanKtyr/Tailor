@@ -4,212 +4,200 @@
 
 <img src="./assets/tailor-mascot.jpg" alt="Tailor - Reuse-First AI Engineering" width="800" style="border-radius: 8px; margin: 16px 0;" />
 
-### *Make the code fit the project.*
+### *Make the code fit the project — with zero waste.*
 
-An open-source software engineering discipline framework and skill for AI coding assistants (Claude Code, Cursor, OpenAI Codex, and Gemini CLI / Antigravity) created by **Aman Katyar** ([@AmanKtyr](https://github.com/AmanKtyr)).
+**The Unified AI Coding-Agent Engineering Framework**  
+Combining **Spec-Driven Development (SDD)**, **Adaptive Pragmatism (Lite/Full/Ultra)**, **Progressive Project Memory (`.ai/`)**, **AST Semantic Code Reuse**, and a **Native Model Context Protocol (MCP) Server** for Claude Code, Cursor, Codex, Gemini CLI / Antigravity, Windsurf, Roo Code / Cline, GitHub Copilot CLI, and Zed.
+
+Created by **Aman Katyar** ([@AmanKtyr](https://github.com/AmanKtyr)).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node: >=18](https://img.shields.io/badge/Node-%3E%3D18.0.0-green.svg)](package.json)
 [![TypeScript: Strict](https://img.shields.io/badge/TypeScript-Strict-blue.svg)](tsconfig.json)
-[![Tests: Vitest](https://img.shields.io/badge/Tests-18%20Passing-brightgreen.svg)](tests/)
+[![Tests: Vitest](https://img.shields.io/badge/Tests-25%20Passing-brightgreen.svg)](tests/)
 [![Benchmarks: 100%](https://img.shields.io/badge/Benchmarks-100%25-success.svg)](benchmarks/)
+[![MCP: Supported](https://img.shields.io/badge/MCP-Protocol%202024--11--05-purple.svg)](src/mcp/)
 
 ---
 
 </div>
 
-## Overview
+## 🌟 Why Tailor?
 
-The **Tailor skill** is an open-source productivity and engineering discipline plugin for AI coding assistants (like Claude Code, Cursor, Codex, and Gemini) created by **Aman Katyar** ([@AmanKtyr](https://github.com/AmanKtyr)). It forces AI coding agents to act like disciplined senior software engineers, eliminating bloated, over-engineered code, enforcing a strict reuse-first engineering ladder, maintaining compact AI project memory (`.ai/`), and rejecting unnecessary dependencies and security anti-patterns.
+AI coding assistants often fall into two opposite failure modes:
+1. **"Vibe Coding" & Hallucination:** Agents generate code with loose prompts, creating bloated boilerplate, duplicate components, and violating project architecture.
+2. **Extreme Laziness without Structure:** Agents write terse one-liners without clear requirements, specifications, or architectural guardrails.
 
----
-
-## How Tailor Works
-
-* **The Reuse-First Decision Ladder:** Forces the AI agent to search existing project components, utilities, hooks, and CSS before drafting new code, cutting down redundant implementations.
-* **Progressive Project Memory (`.ai/`):** Generates and maintains compact, evidence-based project memory (`INDEX.md`, `STACK.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `SECURITY.md`) to save up to 80% repetitive LLM context tokens.
-* **Automated Drift Detection:** Continuously compares active source code and package manifests against project memory to detect and repair stale documentation automatically.
-* **Dependency Governance:** Rejects trivial micro-package bloat (like `is-odd`, `left-pad`) and evaluates supply-chain security, maintenance status, and license compatibility before installing packages.
-* **Security & Vulnerability Defenses:** Statically detects hardcoded secrets/API keys, SQL string concatenation, disabled TLS flags, and dangerous `eval()` calls.
-* **Efficiency & Token Gains:** Benchmarks demonstrate 100% accurate component reuse matching and significant reduction in generated code volume and LLM token consumption.
+**Tailor** bridges this gap into a single, cohesive framework:
+* 📜 **Spec-Driven Development (SDD):** Turns user intent into formal specifications (`spec.md`), technical architecture plans (`plan.md`), and granular checklists (`tasks.md`), guided by a non-negotiable **Project Constitution** (`.ai/CONSTITUTION.md`).
+* 🪜 **Adaptive Pragmatism Ladder:** Enforces the 7-step decision ladder (YAGNI -> Existing Code -> Stdlib -> Native API -> Installed Dep -> One-liner -> Minimal Code) with adjustable intensity levels (`lite`, `balanced`, `ultra`, `strict`).
+* 🧠 **Progressive Project Memory (`.ai/`):** Self-healing, compact domain memory saving up to 80% repetitive context tokens with live drift repair.
+* 🔍 **AST Semantic Code Reuse:** Deterministically indexes workspace components, hooks, and utilities to inject reuse audits before writing code.
+* ⚡ **Native MCP Server:** Connects directly to Claude Desktop, Cursor, Zed, Windsurf, and Antigravity over standard JSON-RPC.
 
 ---
 
-## Key Commands & Features
+## 📊 Comprehensive Comparison Matrix
 
-| Command | Action & What It Does |
-| :--- | :--- |
-| `tailor init` / `/init-project` | Conducts product discovery, developer expertise assessment, stack recommendation, and ADR generation |
-| `tailor analyze` / `/analyze-project` | Deterministically inspects workspace signals, frameworks, databases, and reusable component catalog |
-| `tailor memory update` | Synchronizes and regenerates `.ai/` project memory layer based on current source code state |
-| `tailor memory drift` | Detects divergence between active code and recorded project memory documents |
-| `tailor security` / `/security-audit` | Runs static security rules, credential leak checks, and dependency vulnerability scans |
-| `tailor dependencies --check <pkg>` | Evaluates proposed packages for bloat, redundancy, and license compatibility |
-| `tailor review` / `/review` | Runs holistic architecture, reuse, security, and quality review gates |
-| `tailor doctor` | Diagnoses Node runtime, Git status, memory integrity, and skill frontmatter |
-
----
-
-## Installation & Quick Start
-
-Tailor supports **all major AI coding agents** via the open standard `skills` CLI, as well as direct terminal CLI usage via **NPM**.
+| Capability / Dimension | GitHub `spec-kit` (Specify) | DietrichGebert `ponytail` | **Tailor 2.0 (Supercharged)** |
+| :--- | :--- | :--- | :--- |
+| **Core Paradigm** | Spec-Driven Development (SDD) | Pragmatism & LOC reduction | **Unified Framework: SDD + Pragmatism + Memory + Reuse + MCP** |
+| **CLI & Runtime** | Python (`uv tool install specify-cli`) | Prompt-only (no executable CLI) | **Zero-Config Node/TypeScript CLI (`npx @amanktyr/tailor`)** |
+| **Project Constitution** | `.specify/memory/constitution.md` | Hardcoded prompt rule | **`.ai/CONSTITUTION.md` + `.ai/INDEX.md` + Live ADRs** |
+| **Pre-Execution Reuse Audit** | ❌ None (leads to duplicated code) | ❌ Text rule only | ✅ **AST scan automatically injects existing components into `plan.md`** |
+| **Pragmatism Intensity** | ❌ None (tends to generate bloat) | ✅ `lite`, `full`, `ultra` | ✅ **`lite`, `balanced`, `ultra`, `strict` embedded everywhere** |
+| **Native MCP Server** | ❌ None | ❌ None | ✅ **Built-in JSON-RPC 2.0 Server (`tailor mcp` / `tailor-mcp`)** |
+| **Live Drift Detection** | ❌ None | ❌ None | ✅ **Continuous AST scanner auto-repairs stale project memory** |
+| **Multi-Agent Adapters** | 4 platforms | 5 platforms | ✅ **10+ Platforms (Claude, Cursor, Codex, Gemini, Windsurf, Cline, Copilot, Zed)** |
+| **Global i18n & SEO** | English only | English only | ✅ **6 Global Languages (EN, ES, ZH, JA, DE, HI) & Full SEO metadata** |
 
 ---
 
-### 📦 1. Universal Agent Installation (`skills` CLI)
+## 🚀 Quick Start & Installation
 
-One single command installs Tailor across **all AI coding assistants** (Claude Code, Cursor, OpenAI Codex, Gemini CLI, Windsurf, OpenCode):
+Tailor can be used via the universal **Agent Skills** standard, as a **Global / Local CLI**, or as an **MCP Server**.
+
+### 1. Universal Agent Installation (`skills` CLI)
 
 ```bash
-# Install Tailor into your active project workspace
+# Install Tailor across all AI coding assistants in your workspace
 npx skills add AmanKtyr/Tailor -y
 
-# Or install globally across all projects on your machine (-g)
+# Or install globally across your machine (-g)
 npx skills add AmanKtyr/Tailor -g -y
-
-# Install only the core skill
-npx skills add AmanKtyr/Tailor --skill tailor-core -y
 ```
 
-| Supported Agent | How It Works |
-| :--- | :--- |
-| 🟣 **Claude Code** | Automatically loads `.ai/INDEX.md` and enforces Reuse-First rules |
-| 🔵 **Cursor IDE** | Guides Cursor Composer & Chat via `.cursorrules` and project memory |
-| 🟢 **OpenAI Codex** | Resolved automatically from `.agents/skills/` |
-| 🟡 **Gemini CLI / Antigravity** | Discovers skills directly via workspace integration |
-| 🌊 **Windsurf / OpenCode** | Native discovery via standard `SKILL.md` frontmatter |
+### 2. NPM CLI Installation
 
----
-
-### 💻 2. Installation via NPM (CLI & Local Project)
-
-If you want to use Tailor's deterministic CLI tools (`analyze`, `memory`, `security`, `doctor`, `review`) in your terminal or CI/CD pipelines:
-
-#### Global CLI Installation:
 ```bash
+# Install globally
 npm install -g @amanktyr/tailor
 
-# Now run tailor anywhere:
-tailor init
-tailor analyze
-tailor review
-```
-
-#### Local Project Installation (Dev Dependency):
-```bash
-# Install into your project
-npm install --save-dev @amanktyr/tailor
-
-# Run via npx without installing globally:
-npx @amanktyr/tailor init
-npx @amanktyr/tailor analyze
-npx @amanktyr/tailor review
-```
-
-#### Run Directly without Installation:
-```bash
+# Or run directly via npx without installation:
 npx @amanktyr/tailor init
 ```
 
----
+### 3. Model Context Protocol (MCP) Server Setup
 
-### 📂 3. Installation from Local Cloned Repository
-
-If you cloned this repository locally:
-```bash
-# Inside the cloned Tailor directory:
-npx skills add . -y
-
-# Install a specific individual skill only:
-npx skills add ./skills/tailor-core -y
-npx skills add ./skills/reuse-first -y
-npx skills add ./skills/security -y
-```
-
----
-
-## Modular Skill Architecture
-
-Tailor provides 15 specialized skills adhering to the open `SKILL.md` standard with valid YAML frontmatter:
-
-1. **`tailor-core`**: Agent operational contract, task classification, and reuse-first philosophy.
-2. **`project-init`**: Bootstrapping discovery, developer expertise matching, and stack recommendation.
-3. **`project-memory`**: Progressive disclosure, memory cache hierarchy, and drift repair.
-4. **`architecture`**: Architecture Decision Records (ADRs) and preventing premature complexity.
-5. **`reuse-first`**: Semantic search across components, utilities, hooks, and CSS tokens.
-6. **`dependency-governance`**: Supply-chain assessment, license validation, and anti-bloat filters.
-7. **`security`**: OWASP Top 10 defenses, zero hardcoded secrets, injection prevention.
-8. **`frontend`**: Design system adherence, UI component reuse, responsive styling.
-9. **`backend`**: API contracts, database transaction integrity, domain boundaries.
-10. **`seo`**: Technical SEO, metadata, sitemaps, and robots configuration.
-11. **`accessibility`**: WCAG 2.1 AA compliance, semantic HTML, keyboard navigation.
-12. **`testing`**: Test runner discovery, targeted execution, truthful verification.
-13. **`documentation`**: Documenting *why* instead of *what*, keeping docs in sync.
-14. **`refactoring`**: Eliminating duplicated code and safe atomic refactors.
-15. **`review`**: Holistic code and architecture review gates.
-
----
-
-## Benchmarks & Measurable Results
-
-Tailor includes an automated benchmark suite (`benchmarks/scripts/run-benchmarks.js`) running across 5 real fixture codebases:
-* `nextjs-app` (Next.js 14, React 18, Tailwind CSS, Vitest)
-* `django-app` (Django 4.2, PostgreSQL, DRF, Pytest)
-* `react-app` (React, Vite)
-* `dotnet-api` (ASP.NET Core, C# .NET 8)
-* `messy-monolith` (Express, legacy dependencies, duplicated user queries, leaked AWS key, eval)
-
-**Benchmark Results:**
-* Project Signal Detection: **100% accurate** across Next.js, Django, React, ASP.NET Core, and Express.
-* Semantic Reuse Matching: **100% match** for user request `modal` -> existing `Dialog`, and `fetchUser` -> existing `getUser`.
-* Dependency Governance: **100% rejection** of trivial micro-packages (`is-odd`) and challenge on redundant libraries (`axios`).
-* Security Detection: **100% detection** of hardcoded AWS credentials, SQL string concatenation, and dangerous `eval()`.
-* Task Classification: **100% accurate** scaling across TRIVIAL, SMALL, MEDIUM, LARGE, and CRITICAL.
-
-Run benchmarks locally:
-```bash
-npm run benchmark
-```
-
----
-
-## Configuration (`.tailor.json`)
+Add Tailor to your `claude_desktop_config.json` or Cursor MCP settings:
 
 ```json
 {
-  "profile": "saas",
-  "memory": {
-    "enabled": true,
-    "directory": ".ai",
-    "autoUpdate": false
-  },
-  "security": {
-    "level": "high",
-    "requireAudit": true,
-    "blockOnCritical": true
-  },
-  "dependencies": {
-    "requireAudit": true,
-    "allowedLicenses": ["MIT", "Apache-2.0", "BSD-3-Clause", "ISC"]
-  },
-  "reuse": {
-    "enabled": true,
-    "componentDirectories": ["src/components", "src/lib", "src/utils"]
+  "mcpServers": {
+    "tailor": {
+      "command": "npx",
+      "args": ["-y", "@amanktyr/tailor", "mcp"]
+    }
   }
 }
 ```
 
 ---
 
-## Privacy & Security Policy
+## 🛠️ Key CLI Commands
 
-* **NO TELEMETRY BY DEFAULT:** Tailor never secretly uploads source code, secrets, file contents, prompts, or proprietary data.
-* **Deterministic & Safe Execution:** No arbitrary shell commands or untrusted remote code execution.
-* **Non-destructive Defaults:** Tailor never silently overwrites or deletes unrelated files.
+```bash
+# Project Governance & Initialization
+tailor init                          # Conduct discovery, stack selection, and initialize .ai/
+tailor constitution                  # View or regenerate .ai/CONSTITUTION.md
+tailor sync                          # Synchronize all 10+ AI agent adapter files
+
+# Spec-Driven Development (SDD) Workflow
+tailor spec init                     # Initialize specs/ directory and constitution
+tailor spec new <feature-name>       # Scaffold specs/<id>-<name>/spec.md with user stories
+tailor spec plan <id>                # Generate reuse-aware technical plan (plan.md)
+tailor spec tasks <id>               # Generate granular, ordered task checklist (tasks.md)
+tailor spec list                     # View all active feature specs and completion status
+
+# Intelligence, Memory & Security
+tailor analyze                       # Deterministically inspect stack, frameworks, and reusable catalog
+tailor memory update                 # Synchronize .ai/ progressive memory documents
+tailor memory drift                  # Detect drift between active code and recorded memory
+tailor security                      # Run static security rules and credential leak checks
+tailor dependencies --check <pkg>   # Evaluate package for bloat, redundancy, and licenses
+tailor review                        # Run holistic quality, architecture, and security gates
+tailor doctor                        # Run full system, git, memory, and skill diagnostics
+tailor mcp                           # Start stdio Model Context Protocol (MCP) server
+```
 
 ---
 
-## Contributing & Development
+## 🪜 The 7-Step Pragmatism Ladder
+
+Before writing any new implementation or adding dependencies, AI agents follow this mandatory sequence:
+
+```
+┌────────────────────────────────────────────────────────┐
+│ 1. Does this need to exist? (YAGNI)                    │
+│    -> Reject speculative complexity or future-proofing.│
+├────────────────────────────────────────────────────────┤
+│ 2. Already in this codebase?                           │
+│    -> Search src/components/, src/lib/, src/utils/.    │
+├────────────────────────────────────────────────────────┤
+│ 3. Does the Standard Library do it?                    │
+│    -> Use crypto.randomUUID(), structuredClone(), etc. │
+├────────────────────────────────────────────────────────┤
+│ 4. Does a Native Platform / Browser API cover it?      │
+│    -> Use <dialog>, <input type="date">, fetch().      │
+├────────────────────────────────────────────────────────┤
+│ 5. Does an already-installed dependency solve it?      │
+│    -> Reuse existing packages in package.json.         │
+├────────────────────────────────────────────────────────┤
+│ 6. Can it be written as a one-liner / inline helper?   │
+│    -> Avoid creating 50-line wrappers for simple logic.│
+├────────────────────────────────────────────────────────┤
+│ 7. Only then: Write the minimum amount of clean code.  │
+│    -> Clean domain boundaries, types, and tests.       │
+└────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🤖 Universal Multi-Agent Support (10+ Platforms)
+
+| AI Platform | Integration File | Description |
+| :--- | :--- | :--- |
+| 🟣 **Claude Code** | `CLAUDE.md` | Loads `.ai/CONSTITUTION.md` and enforces Reuse-First rules |
+| 🔵 **Cursor IDE** | `.cursorrules` & `.cursor/rules/tailor.mdc` | Guides Cursor Composer & Chat with project memory |
+| 🟢 **OpenAI Codex / ChatGPT** | `AGENTS.md` | Resolved automatically from `.agents/skills/` |
+| 🟡 **Gemini CLI / Antigravity** | `GEMINI.md` & workspace integration | Discovers skills directly in workspace root |
+| 🌊 **Windsurf** | `.windsurfrules` | Native discovery via standard rules file |
+| 🦘 **Roo Code / Cline** | `.clinerules` | Enforces project constitution during task execution |
+| 🐙 **GitHub Copilot CLI** | `.github/copilot-instructions.md` | Native instructions for Copilot workspace chat |
+| 🌐 **OpenCode** | `.opencode/rules/tailor.md` | Open-source agent integration rules |
+| ⚡ **Aider** | `.aider.conventions.md` | Terminal pair programming conventions |
+| ✏️ **Zed Editor** | `.zed/prompt.md` | Custom instructions for Zed AI assistant |
+
+Run `tailor sync` at any time to update all adapter files simultaneously!
+
+---
+
+## 📈 Benchmarks & Results
+
+Tailor includes an automated benchmark suite (`benchmarks/scripts/run-benchmarks.js`) running across 5 real fixture codebases:
+* `nextjs-app` (Next.js 14, React 18, Tailwind CSS, Vitest)
+* `django-app` (Django 4.2, PostgreSQL, DRF, Pytest)
+* `react-app` (React, Vite)
+* `dotnet-api` (ASP.NET Core, C# .NET 8)
+* `messy-monolith` (Express, legacy dependencies, leaked secrets, eval)
+
+**Benchmark Performance:**
+* ✅ **Project Signal Detection:** 100% accurate across Next.js, Django, React, ASP.NET Core, and Express.
+* ✅ **Semantic Reuse Matching:** 100% match for user requests (`modal` -> existing `Dialog`, `fetchUser` -> `getUser`).
+* ✅ **Dependency Governance:** 100% rejection of trivial micro-packages (`is-odd`, `left-pad`) and challenge on redundant libraries (`axios`).
+* ✅ **Security Defenses:** 100% detection of hardcoded AWS credentials, SQL string concatenation, and dangerous `eval()`.
+* ✅ **Token & LOC Reduction:** 40-70% reduction in generated code volume and context token consumption.
+
+---
+
+## 🔒 Privacy & Security
+
+* **100% Local & Deterministic:** No telemetry, no hidden remote logging, and no source code uploads.
+* **Safe Defaults:** Never silently overwrites or deletes unrelated files.
+
+---
+
+## 🤝 Contributing
 
 ```bash
 git clone https://github.com/AmanKtyr/Tailor.git

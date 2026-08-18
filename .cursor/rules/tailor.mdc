@@ -1,3 +1,7 @@
+---
+description: Tailor Reuse-First and Spec-Driven rules
+globs: *
+---
 # AI Agent Guidance (Powered by Tailor)
 
 This repository uses **Tailor** for project intelligence, Spec-Driven Development, and Reuse-First engineering discipline.
@@ -8,3 +12,4 @@ This repository uses **Tailor** for project intelligence, Spec-Driven Developmen
 3. **Pragmatic Simplicity:** Prefer standard library and native platform APIs over trivial external dependencies.
 4. **Spec-Driven Discipline:** For non-trivial features, follow the specification lifecycle (`specs/<id>/spec.md` -> `plan.md` -> `tasks.md`).
 5. **Truthful Verification:** Verify changes with targeted tests; never fabricate test passes.
+

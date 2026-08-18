@@ -26,6 +26,20 @@ export * from './memory/generator.js';
 export * from './memory/validator.js';
 export * from './memory/drift.js';
 
+export * from './spec/types.js';
+export * from './spec/constitution.js';
+export * from './spec/manager.js';
+
+export * from './pragmatism/types.js';
+export * from './pragmatism/stdlib-catalog.js';
+export * from './pragmatism/decision-ladder.js';
+
+export * from './mcp/types.js';
+export * from './mcp/server.js';
+
+export * from './i18n/types.js';
+export * from './i18n/index.js';
+
 export * from './dependencies/types.js';
 export * from './dependencies/auditor.js';
 export * from './dependencies/governance.js';

@@ -1,12 +1,13 @@
 {
   "name": "@amanktyr/tailor",
-  "version": "0.1.0",
-  "description": "AI coding-agent engineering framework and skill for disciplined, reuse-first software engineering.",
+  "version": "0.2.0",
+  "description": "Unified AI Coding-Agent Engineering Framework. Combining Spec-Driven Development, Adaptive Pragmatism (Lite/Full/Ultra), Progressive Project Memory (.ai/), AST Semantic Code Reuse, and Native Model Context Protocol (MCP) Server for Claude Code, Cursor, Codex, Gemini, Windsurf, Roo Code, and Copilot.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "tailor": "dist/cli/bin.js"
+    "tailor": "dist/cli/bin.js",
+    "tailor-mcp": "dist/cli/mcp-bin.js"
   },
   "files": [
     "dist",
@@ -21,31 +22,52 @@
     "type": "git",
     "url": "https://github.com/AmanKtyr/Tailor.git"
   },
+  "homepage": "https://github.com/AmanKtyr/Tailor#readme",
+  "bugs": {
+    "url": "https://github.com/AmanKtyr/Tailor/issues"
+  },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "lint": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "benchmark": "node --loader ts-node/esm benchmarks/scripts/run-benchmarks.js",
+    "benchmark": "node benchmarks/scripts/run-benchmarks.js",
     "start": "node dist/cli/bin.js",
     "prepare": "npm run build"
   },
   "keywords": [
     "ai",
-    "coding-agent",
-    "agent-skills",
-    "skill",
-    "codex",
-    "claude",
+    "ai-coding-agent",
+    "spec-driven-development",
+    "sdd",
+    "spec-kit",
+    "ponytail",
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "claude-code",
     "cursor",
-    "gemini",
+    "cursorrules",
+    "antigravity",
+    "gemini-cli",
+    "windsurf",
+    "roo-code",
+    "cline",
+    "github-copilot",
+    "codex",
+    "opencode",
     "software-engineering",
     "code-reuse",
+    "prompt-engineering",
     "project-memory",
+    "constitution",
+    "decision-ladder",
+    "anti-bloat",
+    "token-optimization",
     "architecture-decision-records"
   ],
-  "author": "Tailor Contributors",
+  "author": "Aman Katyar <https://github.com/AmanKtyr>",
   "license": "MIT",
   "dependencies": {
     "commander": "^12.1.0",
