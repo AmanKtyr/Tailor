@@ -1,6 +1,6 @@
 {
   "name": "@amanktyr/tailor",
-  "version": "0.2.0",
+  "version": "1.3.0",
   "description": "Unified AI Coding-Agent Engineering Framework. Combining Spec-Driven Development, Adaptive Pragmatism (Lite/Full/Ultra), Progressive Project Memory (.ai/), AST Semantic Code Reuse, and Native Model Context Protocol (MCP) Server for Claude Code, Cursor, Codex, Gemini, Windsurf, Roo Code, and Copilot.",
   "type": "module",
   "main": "dist/index.js",
