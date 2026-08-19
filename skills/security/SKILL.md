@@ -1,17 +1,19 @@
 ---
 name: security
-description: Enforces security engineering principles, OWASP Top 10 defenses, zero hardcoded secrets, parameterized queries, and runs security audits.
+description: Enforces security engineering principles, OWASP Top 10 defenses, zero hardcoded secrets, parameterized queries, authorization checks, and automated vulnerability scanning.
 ---
 
 # Security Engineering Skill
 
 Activate this skill when dealing with authentication, authorization, secret management, database queries, cryptography, external network calls, or security audits (`/security-audit`).
 
+> **Security Law:** *Security is never an afterthought. Validate all inputs, parameterize all queries, and never trust client-side claims.*
+
 ---
 
-## 1. Quick Automated Secret & Pattern Scanner
+## 1. Automated Secret & Pattern Scanner
 
-Before committing code, execute the bundled secret scanner script:
+Before committing code or concluding a task, run the automated security scanner:
 
 ```bash
 # Run deterministic secret and vulnerability checks
@@ -20,47 +22,52 @@ node skills/security/scripts/scan-secrets.js
 
 ---
 
-## 2. Invariant Rules & Vulnerability Defenses
+## 2. Invariant Rules & Defense Implementations
 
 ### A. Zero Hardcoded Secrets (CRITICAL)
-* **Violation:**
+* **Insecure Anti-Pattern:**
   ```ts
-  const STRIPE_SECRET = "sk_live_51Mz..."; // INSECURE
+  const AWS_KEY = "AKIAIOSFODNN7EXAMPLE";
+  const STRIPE_SECRET = "sk_live_51Mz98...";
   ```
-* **Remediation:**
+* **Secure Standard:**
   ```ts
   const STRIPE_SECRET = process.env.STRIPE_SECRET_KEY;
-  if (!STRIPE_SECRET) throw new Error("Missing STRIPE_SECRET_KEY in environment");
+  if (!STRIPE_SECRET) {
+    throw new Error("CRITICAL: STRIPE_SECRET_KEY environment variable is not defined.");
+  }
   ```
 
-### B. Injection Defenses (CRITICAL)
-* **Violation (Raw String Concatenation):**
+### B. SQL Injection Defense (CRITICAL)
+* **Insecure (Raw String Concatenation):**
   ```ts
-  db.query(`SELECT * FROM users WHERE email = '${userEmail}'`); // INSECURE
+  db.query(`SELECT * FROM users WHERE email = '${userEmail}'`);
   ```
-* **Remediation (Parameterized Query / ORM):**
+* **Secure (Parameterized Query / Prepared Statement):**
   ```ts
-  db.query('SELECT * FROM users WHERE email = $1', [userEmail]); // SECURE
+  db.query('SELECT * FROM users WHERE email = $1', [userEmail]);
   ```
 
-### C. Safe Deserialization & Code Execution (CRITICAL)
-* **Violation:** `eval(data)`, `child_process.exec(userInput)`
-* **Remediation:** `JSON.parse(data)`, `child_process.execFile(cmd, [args], { shell: false })`
+### C. Safe Execution & Deserialization (CRITICAL)
+* **Forbidden Functions:** `eval()`, `new Function()`, `setTimeout(string)`, `child_process.exec(userInput)`.
+* **Safe Alternatives:** Use `JSON.parse()`, `child_process.execFile(binaryPath, [args], { shell: false })`.
 
-### D. Strict Server-Side Authorization (HIGH)
-* Never rely on client-side hiding alone (`{isAdmin && <AdminPanel />}`).
-* Enforce authentication and role checks inside backend route handlers / server actions before data mutations.
+### D. Server-Side Authorization Invariant (HIGH)
+* Never rely on client-side conditional rendering (`{isAdmin && <DeleteButton />}`) as security.
+* Enforce authentication, session validation, and role-based permissions inside server route handlers or server actions before executing any data mutation.
+
+### E. Path Traversal Defense (HIGH)
+* Always resolve and sanitize user-supplied file paths against an allowed root directory using `path.resolve()` and ensure `resolvedPath.startsWith(allowedRootDirectory)`.
 
 ---
 
-## 3. Security Audit Output Format
-
-When generating security audit reports (`/security-audit`):
+## 3. Standard Security Finding Schema (`/security-audit`)
 
 ```markdown
-### [CRITICAL] SEC-001: Hardcoded AWS Access Key
-- **Location:** `src/config/aws.ts:14`
-- **Evidence:** `const AWS_KEY = "AKIA..."`
-- **Impact:** Direct infrastructure compromise if committed.
-- **Remediation:** Move key to AWS Secrets Manager or environment variables.
+### [CRITICAL] SEC-001: [Short Vulnerability Title]
+- **Location:** `src/controllers/userController.ts:42`
+- **Vulnerability Type:** SQL Injection / Hardcoded Credential / Insecure Deserialization
+- **Evidence:** `db.query("SELECT * FROM users WHERE id = " + req.params.id)`
+- **Impact:** Direct data exposure or unauthorized remote manipulation.
+- **Remediation:** Replace with parameterized query placeholder `$1`.
 ```

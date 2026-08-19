@@ -5,18 +5,43 @@ description: Enforces web accessibility (a11y), WCAG 2.1 AA guidelines, keyboard
 
 # Accessibility (a11y) Skill
 
-Activate this skill when creating or modifying interactive UI components, forms, modal dialogs, menus, navigation, or visual styling.
+Activate this skill when creating or modifying user interfaces, form inputs, modal dialogs, menus, navigation bars, interactive widgets, or visual styling.
 
-## 1. Semantic HTML First
-- Prefer native HTML elements (`<button>`, `<nav>`, `<main>`, `<dialog>`, `<header>`, `<article>`) over `<div>` or `<span>` with click handlers.
-- Do NOT add redundant ARIA attributes when native HTML elements provide implicit roles (e.g. avoid `<button role="button">`).
+> **Accessibility Law:** *Accessible software is usable software for everyone. Use semantic HTML first and manage focus rigorously.*
 
-## 2. Keyboard & Focus Management
-- Ensure all interactive controls are reachable and operable via keyboard (`Tab`, `Enter`, `Space`, `Escape`, arrow keys).
-- Trap focus inside active modal dialogs and restore focus to the triggering element upon closure.
-- Provide clear visible `:focus-visible` styling.
+---
 
-## 3. Forms & Media
-- Ensure every form input has an associated `<label for="...">` or `aria-labelledby`.
-- Provide meaningful `alt` text for informative images; use empty `alt=""` for purely decorative images.
-- Ensure color contrast meets WCAG AA standards (4.5:1 for normal text, 3:1 for large text).
+## 1. Semantic HTML First (First Line of Defense)
+
+* Always prefer native HTML5 elements (`<button>`, `<nav>`, `<main>`, `<dialog>`, `<header>`, `<article>`, `<section>`, `<aside>`) over generic `<div>` or `<span>` elements with click handlers.
+* **Do NOT add redundant ARIA attributes** when native elements already provide implicit roles (e.g. avoid `<button role="button">` or `<nav role="navigation">`).
+
+---
+
+## 2. Keyboard Navigation & Focus Management
+
+* **Full Keyboard Operability:** Every interactive element must be reachable and actionable via keyboard (`Tab`, `Shift+Tab`, `Enter`, `Space`, `Escape`, and arrow keys).
+* **Visible Focus Indicators:** Never remove focus outlines (`outline: none` without providing an accessible `:focus-visible` replacement).
+* **Focus Trapping in Modal Dialogs:**
+  - When a modal opens, trap keyboard focus within the dialog container.
+  - Pressing `Escape` must close the dialog.
+  - When closed, restore focus back to the triggering element.
+
+---
+
+## 3. Forms & Labeling
+
+* Every form control (`<input>`, `<select>`, `<textarea>`) must have an associated `<label for="inputId">` or `aria-labelledby`.
+* Provide clear, inline error messages linked to inputs via `aria-describedby="errorId"` and marked with `aria-invalid="true"`.
+
+---
+
+## 4. Visual Contrast & Media
+
+* **Color Contrast (WCAG 2.1 AA):**
+  - Normal text: Minimum contrast ratio of **4.5:1** against its background.
+  - Large text (18pt+ or 14pt bold): Minimum contrast ratio of **3.0:1**.
+  - Interactive UI components & graphical objects: Minimum **3.0:1**.
+* **Informative vs Decorative Images:**
+  - Informative images: Descriptive `alt="User profile photo of Jane Doe"`.
+  - Purely decorative images: Explicit empty `alt=""` and `aria-hidden="true"`.

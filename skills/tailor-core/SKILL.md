@@ -1,86 +1,96 @@
 ---
 name: tailor-core
-description: Core Tailor engineering discipline framework. Enforces Spec-Driven Development (SDD), the 7-step decision ladder, progressive project memory (.ai/), AST semantic code reuse, and zero-bloat software engineering.
+description: Core Tailor software engineering framework. Governs Spec-Driven Development (SDD), the 7-step decision ladder, progressive project memory (.ai/), AST semantic code reuse, and zero-bloat multi-agent discipline.
 ---
 
 # Tailor Core — Agent Operational Contract
 
-You are acting under the **Tailor** software engineering discipline framework.
+You are operating under the **Tailor** software engineering framework.
 
-> **Tagline:** *"Make the code fit the project — with zero waste."*
-
----
-
-## 1. Slash Commands & Trigger Routing
-
-When the user triggers slash commands, execute these specialized workflows:
-
-| Slash Command | Activation & Behavior | Specialized Skill |
-| :--- | :--- | :--- |
-| `/constitution` | Review or update project non-negotiable principles | `spec-driven-dev` |
-| `/spec-new <feature>` | Scaffold feature specification (user stories, requirements) | `spec-driven-dev` |
-| `/spec-plan <id>` | Generate reuse-aware technical plan with AST component discovery | `spec-driven-dev` + `reuse-first` |
-| `/spec-tasks <id>` | Generate granular, complexity-classified task checklist | `spec-driven-dev` |
-| `/spec-implement <id>` | Execute tasks sequentially with continuous truthful tests | `spec-driven-dev` |
-| `/init-project` | Run product discovery, expertise matrix, stack selection, and ADRs | `project-init` |
-| `/analyze-project` | Deterministic stack, file, and reusable component indexing | `tailor-core` + `reuse-first` |
-| `/review` | Multi-dimensional quality, architecture, duplication, and security review | `review` |
-| `/security-audit` | Run static security rules, credential leak checks, and dependency audit | `security` |
-| `/dependency-check <pkg>` | Evaluate proposed package for bloat, redundancy, and license | `dependency-governance` + `pragmatism` |
-| `/update-project-memory` | Synchronize `.ai/` memory documents with current codebase state | `project-memory` |
+> **Core Directive:** *"Make the code fit the project — with zero waste."*
 
 ---
 
-## 2. The Core Engineering & Pragmatism Ladder
+## 1. Universal Slash Command Router
 
-Before writing any new implementation or adding dependencies, you MUST follow this strict order:
+When slash commands are triggered by the user or upstream agents, route execution to the corresponding specialized skill:
+
+| Slash Command | Primary Action | Target Skill | Key Artifact Generated / Modified |
+| :--- | :--- | :--- | :--- |
+| `/constitution` | Review or edit project non-negotiables & intensity | `spec-driven-dev` | `.ai/CONSTITUTION.md` |
+| `/spec-new <feature>` | Scaffold user stories, scope, and edge cases | `spec-driven-dev` | `specs/<id>-<name>/spec.md` |
+| `/spec-plan <id>` | Generate reuse-aware technical architecture plan | `spec-driven-dev` + `reuse-first` | `specs/<id>-<name>/plan.md` |
+| `/spec-tasks <id>` | Generate ordered, complexity-classified tasks | `spec-driven-dev` | `specs/<id>-<name>/tasks.md` |
+| `/spec-implement <id>` | Execute tasks sequentially with verified tests | `spec-driven-dev` + `testing` | Production Source Code |
+| `/init-project` | Product discovery, stack matrix, and ADR setup | `project-init` | `.ai/` Memory Hierarchy |
+| `/analyze-project` | Index frameworks, components, and symbol catalog | `tailor-core` + `reuse-first` | AST In-Memory Catalog |
+| `/review` | Multi-dimensional quality, security, and reuse review | `review` | Structured Review Findings |
+| `/security-audit` | Static vulnerability, credential leak, and OWASP scan | `security` | Security Findings Report |
+| `/dependency-check <pkg>` | Evaluate package for bloat, redundancy, and license | `dependency-governance` + `pragmatism` | Package Governance Verdict |
+| `/update-project-memory` | Synchronize `.ai/` files with active codebase reality | `project-memory` | Updated `.ai/*.md` Files |
+
+---
+
+## 2. The 7-Step Pragmatism Ladder (Mandatory Priority)
+
+Before writing any new implementation or adding dependencies, navigate down this ladder and STOP at the first level that solves the requirement:
 
 ```
 ┌────────────────────────────────────────────────────────┐
 │ 1. Does this need to exist? (YAGNI)                    │
+│    -> Reject speculative complexity or future-proofing.│
 ├────────────────────────────────────────────────────────┤
-│ 2. Existing project code (src/components/, src/utils/) │
+│ 2. Already in this codebase?                           │
+│    -> Search src/components/, src/lib/, src/utils/.    │
 ├────────────────────────────────────────────────────────┤
-│ 3. Standard library primitives (crypto, fs, util, etc.)│
+│ 3. Does the Standard Library do it?                    │
+│    -> Use crypto.randomUUID(), structuredClone(), etc. │
 ├────────────────────────────────────────────────────────┤
-│ 4. Native platform / browser features (<dialog>, fetch)│
+│ 4. Does a Native Platform / Browser API cover it?      │
+│    -> Use <dialog>, <input type="date">, fetch().      │
 ├────────────────────────────────────────────────────────┤
-│ 5. Installed dependency (reuse existing package.json)  │
+│ 5. Does an already-installed dependency solve it?      │
+│    -> Reuse existing packages in package.json.         │
 ├────────────────────────────────────────────────────────┤
-│ 6. One-liner / inline implementation                   │
+│ 6. Can it be written as a one-liner / inline helper?   │
+│    -> Avoid creating 50-line wrappers for simple logic.│
 ├────────────────────────────────────────────────────────┤
-│ 7. New custom implementation (Clean, tested, typed)   │
+│ 7. Only then: Write the minimum amount of clean code.  │
+│    -> Clean domain boundaries, types, and tests.       │
 └────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 3. Progressive Disclosure (Context Optimization)
+## 3. Progressive Disclosure (Context Window Optimization)
 
-Do NOT scan the entire repository blindly. Follow progressive disclosure:
-1. **Read `.ai/CONSTITUTION.md` and `.ai/INDEX.md` first.**
-2. Identify and read ONLY the relevant domain memory files:
-   - Architecture & Decisions: `.ai/ARCHITECTURE.md`, `.ai/DECISIONS.md`
-   - UI & Styling: `.ai/UI.md`, `.ai/CONVENTIONS.md`
-   - APIs & Database: `.ai/API.md`, `.ai/DATABASE.md`
-   - Security & Dependencies: `.ai/SECURITY.md`, `.ai/DEPENDENCIES.md`
-   - Testing: `.ai/TESTING.md`
-3. Load ONLY what is strictly needed for the current task.
+To prevent LLM context saturation and reduce token consumption by 40-80%:
+1. **Always read `.ai/CONSTITUTION.md` and `.ai/INDEX.md` first.**
+2. Load domain memory files strictly on demand:
+   - Modifying visual interfaces: Read `.ai/UI.md` and `.ai/CONVENTIONS.md`.
+   - Modifying databases or schemas: Read `.ai/DATABASE.md`.
+   - Designing backend endpoints: Read `.ai/API.md`.
+   - Evaluating or proposing packages: Read `.ai/DEPENDENCIES.md`.
+   - Running verification suites: Read `.ai/TESTING.md`.
+3. Never read entire repositories into context when AST symbol lookup or file-filtered search is available.
 
 ---
 
-## 4. Task Complexity Classification & Workflow
+## 4. Task Complexity Classification & Execution Workflow
 
-| Complexity | Trigger Keywords | Required Process |
+| Complexity | Trigger Characteristics | Required Process |
 | :--- | :--- | :--- |
-| **TRIVIAL** | typo, rename, comment, prettier, formatting | Direct localized change. No proposal ceremony. |
-| **SMALL** | localized component, single endpoint, local bugfix | Search for existing helpers, implement cleanly, run relevant test. |
-| **MEDIUM** | new feature, database model, multi-file component | Outline brief proposal, follow reuse-first, run targeted tests. |
-| **LARGE** | architecture, migration, refactor entire module | Spec-Driven Dev (`/spec-new` -> `/spec-plan`), request confirmation. |
-| **CRITICAL** | auth, secrets, payments, permissions, destructive DB | Security check, explicit risk analysis, require user approval. |
+| **TRIVIAL** | Typo fixes, rename local variable, format spacing | Apply localized change directly. Verify build. |
+| **SMALL** | Single component edit, single route fix, local bug | Search for existing helpers, apply minimal fix, run targeted test. |
+| **MEDIUM** | New feature module, database migration, API endpoint | Query AST reuse catalog, draft brief plan, run unit/integration tests. |
+| **LARGE** | Subsystem refactor, state overhaul, multi-model schema | Full Spec-Driven lifecycle (`/spec-new` -> `/spec-plan` -> `/spec-tasks`). |
+| **CRITICAL** | Auth, cryptography, payments, permissions, data wipe | Mandatory security scan, risk assessment, explicit confirmation. |
 
 ---
 
-## 5. Truthful Verification Invariant
-- NEVER claim tests passed without actually running the test command and verifying an exit code of 0.
-- NEVER claim security compliance without executing static rules or vulnerability audits.
+## 5. Non-Negotiable Engineering Invariants
+
+1. **Zero Unverified Claims:** Never assert *"All tests pass"* or *"No vulnerabilities found"* without running the verification command and confirming exit code 0.
+2. **Reuse Before Creation:** If a matching component or utility exists in the codebase with >=70% semantic similarity, parameterize or extend it rather than creating a duplicate.
+3. **No Phantom Dependencies:** Never introduce an external package without evaluating native standard library alternatives and verifying license compatibility.
+4. **Preserve Codebase Conventions:** Conform to established formatting, casing, typing rigor, and directory layouts documented in `.ai/`.

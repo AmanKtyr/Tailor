@@ -5,15 +5,17 @@ description: Governs automated testing discipline, test runner discovery, target
 
 # Testing Discipline Skill
 
-Activate this skill when creating features, fixing bugs, refactoring, or running automated verification suites.
+Activate this skill when creating features, fixing bugs, refactoring code, or running verification test suites.
+
+> **Testing Law:** *Untested code is broken code. Verified code has exit code 0.*
 
 ---
 
-## 1. Targeted Test Execution Commands
+## 1. Targeted Test Execution Matrix
 
-Run targeted tests for modified files rather than wasting time executing entire slow test suites on minor changes:
+Run targeted tests for modified files to provide fast feedback, then run the full suite before concluding:
 
-| Stack / Tool | Targeted Test Command | Full Suite Command |
+| Stack / Tool | Targeted Single-File Test Command | Full Project Test Suite Command |
 | :--- | :--- | :--- |
 | **Node.js (Vitest)** | `npm test -- path/to/file.test.ts` | `npm test` |
 | **Node.js (Jest)** | `npx jest path/to/file.test.ts` | `npm test` |
@@ -22,11 +24,31 @@ Run targeted tests for modified files rather than wasting time executing entire 
 | **Go** | `go test -v ./pkg/service -run TestFunctionName` | `go test ./...` |
 | **Rust** | `cargo test test_name` | `cargo test` |
 | **.NET C#** | `dotnet test --filter "FullyQualifiedName~TestMethod"` | `dotnet test` |
+| **PHP (PHPUnit)** | `vendor/bin/phpunit tests/UserTest.php` | `vendor/bin/phpunit` |
 
 ---
 
-## 2. Testing Invariants
+## 2. The Testing Pyramid & Mocking Boundaries
 
-1. **Never Fabricate Test Results:** Never state *"All tests passed"* unless the command was executed and exited with code 0.
-2. **Regression Prevention:** For every bug fixed, add a targeted regression test asserting that the bug condition is resolved.
-3. **Deterministic Assertions:** Avoid non-deterministic assertions (e.g. relying on real clocks or unseeded random generators).
+```
+      /\
+     /  \     E2E Tests (Crucial user journeys only)
+    /────\
+   /      \   Integration Tests (API routes + DB queries + contracts)
+  /────────\
+ /          \ Unit Tests (Pure domain logic, utilities, edge cases)
+/────────────\
+```
+
+### Mocking Rules
+* **Mock External Boundaries Only:** Mock third-party payment gateways, email delivery, and cloud storage.
+* **Do NOT Mock Pure Logic:** Never mock internal business functions or data transformers; test them with real inputs and assert exact outputs.
+* **Use Deterministic Factories:** Use factories with fixed seeds; avoid random numbers (`Math.random()`) or unpinned system clocks in test assertions.
+
+---
+
+## 3. Non-Negotiable Testing Invariants
+
+1. **Zero Fabrication:** Never state *"All tests passed"* without executing the test command and confirming that the process exited with code 0.
+2. **Regression Assertion for Bugfixes:** Every bug fix must include an automated regression test reproducing the original bug condition and asserting its resolution.
+3. **Clean Teardown:** Ensure tests clean up temporary files, mock servers, and database records to prevent cross-test pollution.

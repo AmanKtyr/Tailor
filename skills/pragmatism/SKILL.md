@@ -1,13 +1,13 @@
 ---
 name: pragmatism
-description: Enforces radical pragmatic simplicity and zero-bloat software engineering. Enforces the 7-step decision ladder, intensity levels (lite, balanced, ultra, strict), and zero-dependency native APIs.
+description: Enforces radical pragmatic simplicity, standard library utilization, zero-bloat software engineering, and the 7-step decision ladder across all major languages.
 ---
 
 # Pragmatism & Anti-Bloat Skill
 
 Activate this skill to eliminate over-engineered code, reject unnecessary packages, and write the minimal clean implementation that solves the requirement.
 
-> **Motto:** *"Lazy, but never negligent. Simple, but never insecure."*
+> **Engineering Motto:** *"Lazy, but never negligent. Simple, but never insecure."*
 
 ---
 
@@ -42,20 +42,55 @@ Before writing any new implementation or adding packages, work down this ladder 
 
 ---
 
-## 2. Intensity Modes
+## 2. Multi-Language Standard Library Replacement Catalog
 
-| Mode | Behavior & Strictness |
+Always prefer built-in standard library primitives over external packages:
+
+### TypeScript & JavaScript (Node.js 18+ / Modern Browser)
+| Proposed Package | Standard Library / Native Replacement |
 | :--- | :--- |
-| **`lite`** | Gentle guidance; writes requested code but politely proposes the simpler standard-library alternative. |
-| **`balanced`** *(default)* | Strictly enforces the decision ladder; rejects micro-packages (`is-odd`, `left-pad`) and duplicates. |
-| **`ultra`** | Hyper-minimalist; actively prefers deleting dead code, rejects any external package when a 3-line helper works. |
-| **`strict`** | CI enforcement mode; treats any redundant package or bypassed reuse check as a hard failure. |
+| `uuid` / `nanoid` | `crypto.randomUUID()` |
+| `lodash.clonedeep` / `clone-deep` | `structuredClone(value)` |
+| `axios` / `node-fetch` / `got` | Native `fetch()` |
+| `moment` / `dayjs` (simple formatting) | `Intl.DateTimeFormat` / native `Date` |
+| `query-string` / `qs` | `new URLSearchParams(query)` |
+| `mkdirp` / `rimraf` | `fs.mkdirSync(path, { recursive: true })` / `fs.rmSync(path, { recursive: true, force: true })` |
+| `is-odd` / `is-number` / `left-pad` | Native arithmetic, `typeof`, `String.prototype.padStart()` |
+
+### Python (Python 3.10+)
+| Proposed Package | Standard Library Replacement |
+| :--- | :--- |
+| `requests` (simple scripts) | `urllib.request` or `http.client` |
+| `pytz` | `zoneinfo.ZoneInfo` |
+| `python-dateutil` (basic parsing) | `datetime.datetime.fromisoformat()` |
+| `pathlib2` | Built-in `pathlib.Path` |
+| `simplejson` | Built-in `json` |
+| `attrs` (basic classes) | Built-in `@dataclass` or `typing.NamedTuple` |
+
+### Go & Rust
+| Ecosystem | Anti-Pattern Package | Native Alternative |
+| :--- | :--- | :--- |
+| **Go** | External router for simple microservices | Standard library `net/http` (Go 1.22+ enhanced routing) |
+| **Go** | External logging library for simple CLIs | Standard library `log/slog` |
+| **Rust** | Heavy async runtime for sync command-line tools | Standard library `std::fs`, `std::io`, `std::net` |
 
 ---
 
-## 3. The "Lazy, Not Negligent" Guardrails
-Laziness NEVER excuses skipping safety:
+## 3. Intensity Modes
+
+| Mode | Behavior & Operational Strictness |
+| :--- | :--- |
+| **`lite`** | Gentle guidance; implements requested code but politely flags simpler standard-library alternatives in review comments. |
+| **`balanced`** *(default)* | Strictly enforces the decision ladder; rejects micro-packages, duplicates, and unvetted dependencies. |
+| **`ultra`** | Hyper-minimalist; actively removes dead abstractions, rejects external packages if a 5-line inline helper works. |
+| **`strict`** | Continuous integration (CI) mode; treats any redundant package or bypassed reuse check as an immediate hard failure. |
+
+---
+
+## 4. The "Lazy, Not Negligent" Guardrails
+
+Pragmatism must never be used as an excuse for cutting corners on critical system invariants:
 * **Security & Validation:** Never skip input sanitization, CSRF defenses, or SQL parameterization.
-* **Accessibility:** Native elements (`<button>`, `<dialog>`) must retain proper ARIA labels and focus states.
-* **Data Integrity:** Database transactions and atomic writes must be preserved.
-* **Testing:** Always run tests and verify exit code 0.
+* **Accessibility:** Native HTML elements must retain proper ARIA attributes, labels, and focus states.
+* **Data Integrity:** Database transactions and atomic writes must be preserved across mutations.
+* **Testing:** Always run targeted tests and verify exit code 0 before completing tasks.
