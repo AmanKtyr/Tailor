@@ -1,0 +1,9 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+  commandFunction: |-
+    (config) => ({
+      command: 'npx',
+      args: ['-y', '@amanktyr/tailor', 'mcp']
+    })
