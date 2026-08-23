@@ -9,7 +9,7 @@
 **The Unified AI Coding-Agent Engineering Framework**  
 Combining **Spec-Driven Development (SDD)**, **Adaptive Pragmatism (Lite/Full/Ultra)**, **Progressive Project Memory (`.ai/`)**, **AST Semantic Code Reuse**, and a **Native Model Context Protocol (MCP) Server** for Claude Code, Cursor, Codex, Gemini CLI / Antigravity, Windsurf, Roo Code / Cline, GitHub Copilot CLI, and Zed.
 
-Created by **Aman Katyar** ([@AmanKtyr](https://github.com/AmanKtyr)).
+Created by **Aman Katiyar** ([@AmanKtyr](https://github.com/AmanKtyr)).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node: >=18](https://img.shields.io/badge/Node-%3E%3D18.0.0-green.svg)](package.json)

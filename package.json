@@ -100,7 +100,7 @@
     "decision-ladder",
     "AmanKtyr"
   ],
-  "author": "Aman Katyar <https://github.com/AmanKtyr>",
+  "author": "Aman Katiyar <https://github.com/AmanKtyr>",
   "license": "MIT",
   "dependencies": {
     "commander": "^12.1.0",
