@@ -213,4 +213,4 @@ node dist/cli/bin.js doctor
 
 ## License
 
-[MIT](LICENSE) © [Aman Katyar](https://github.com/AmanKtyr) & Tailor Contributors
+[MIT](LICENSE) © [Aman Katiyar](https://github.com/AmanKtyr) & Tailor Contributors
