@@ -1,0 +1,129 @@
+{
+  "serverInfo": {
+    "name": "tailor-mcp-server",
+    "version": "1.3.0"
+  },
+  "authentication": {
+    "required": false
+  },
+  "tools": [
+    {
+      "name": "tailor_analyze",
+      "description": "Inspect workspace technologies, frameworks, and reusable component catalog.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "tailor_reuse_search",
+      "description": "Search workspace for existing reusable components, utilities, and hooks before writing code.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Component, utility, or entity keyword to find (e.g. modal, user, date, dialog)."
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "tailor_spec_create",
+      "description": "Create a new Spec-Driven Development feature specification (spec.md).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "featureName": {
+            "type": "string",
+            "description": "Name of the feature (e.g. user-auth, payment-checkout)."
+          },
+          "title": {
+            "type": "string",
+            "description": "Human-readable title."
+          },
+          "overview": {
+            "type": "string",
+            "description": "Brief overview of the feature goals."
+          }
+        },
+        "required": [
+          "featureName"
+        ]
+      }
+    },
+    {
+      "name": "tailor_spec_plan",
+      "description": "Generate a reuse-aware technical implementation plan (plan.md) for a feature.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "specIdentifier": {
+            "type": "string",
+            "description": "Feature spec folder name or ID (e.g. 001, user-auth)."
+          }
+        },
+        "required": [
+          "specIdentifier"
+        ]
+      }
+    },
+    {
+      "name": "tailor_security_scan",
+      "description": "Run static security rules to detect hardcoded secrets, SQL injection, and unsafe code.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "tailor_dependency_check",
+      "description": "Check a proposed package for bloat, redundancy, and license compatibility.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "packageName": {
+            "type": "string",
+            "description": "Name of the package to evaluate (e.g. is-odd, axios, lodash)."
+          }
+        },
+        "required": [
+          "packageName"
+        ]
+      }
+    },
+    {
+      "name": "tailor_pragmatism_check",
+      "description": "Evaluate code or package against the 7-step pragmatism ladder (YAGNI, stdlib, native API).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "term": {
+            "type": "string",
+            "description": "Feature, abstraction, or helper to evaluate."
+          },
+          "proposedPackage": {
+            "type": "string",
+            "description": "Optional package proposed for this task."
+          }
+        },
+        "required": [
+          "term"
+        ]
+      }
+    },
+    {
+      "name": "tailor_memory_read",
+      "description": "Read the project constitution and progressive memory layer (.ai/).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  ],
+  "resources": [],
+  "prompts": []
+}
