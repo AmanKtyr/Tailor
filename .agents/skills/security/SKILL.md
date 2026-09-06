@@ -1,6 +1,6 @@
 ---
 name: security
-description: Enforces security engineering principles, OWASP Top 10 defenses, zero hardcoded secrets, parameterized queries, authorization checks, and automated vulnerability scanning.
+description: Enforces security engineering principles, OWASP Top 10 defenses, zero hardcoded secrets, auth, JWT, passwords, CORS, encryption, XSS, parameterized queries, and vulnerability scanning.
 ---
 
 # Security Engineering Skill
@@ -71,3 +71,15 @@ node skills/security/scripts/scan-secrets.js
 - **Impact:** Direct data exposure or unauthorized remote manipulation.
 - **Remediation:** Replace with parameterized query placeholder `$1`.
 ```
+
+---
+
+## 4. Mandatory Pre-Commit Security Checklist
+
+Before marking any task complete, verify these 5 checkpoints:
+1. **[ ] Zero Hardcoded Secrets:** Verified that no tokens, passwords, private keys, or credentials exist in new or modified lines.
+2. **[ ] SQL/NoSQL Parameterization:** Confirmed all database access uses parameter placeholders or ORM query builders.
+3. **[ ] Server-Side Authorization:** Confirmed all mutation endpoints enforce identity and permission checks server-side.
+4. **[ ] Path Traversal Shielding:** Checked that all file access paths are validated against allowed root directories.
+5. **[ ] Scanner Execution:** Ran `tailor security` or `node skills/security/scripts/scan-secrets.js` with exit code 0.
+

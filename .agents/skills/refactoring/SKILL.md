@@ -1,6 +1,6 @@
 ---
 name: refactoring
-description: Governs code refactoring, duplicate elimination, dead code pruning, and architectural restructuring without introducing regressions.
+description: Governs code refactoring, code cleanup, deduplication, extract function, technical debt, dead code pruning, and architectural restructuring without regressions.
 ---
 
 # Refactoring Skill
@@ -41,3 +41,25 @@ Before modifying any existing implementation:
 * Search for repeated logic blocks across components using the AST duplicate finder.
 * Consolidate duplicate helpers into a shared utility, replace all call sites, and remove dead unused exports.
 * Re-run all verification suites and confirm **0 regressions**.
+
+---
+
+## 4. Refactoring Anti-Patterns & Step-by-Step Checklist
+
+### Anti-Pattern: Unsolicited Scope Expansion (Refactoring Creep)
+```ts
+// ❌ WRONG: When asked to fix a date bug, rewriting unrelated CSS, variable names, and helper functions
+// Results in huge diffs, merge conflicts, and subtle regressions.
+```
+```ts
+// ✅ CORRECT: Surgical, focused refactoring preserving existing contracts
+// Only modify what is directly necessary to eliminate duplicate or dead code.
+// Preserve all existing function signatures and behavior.
+```
+
+### Mandatory 4-Step Refactoring Checklist
+1. **[ ] Pre-Flight Baseline:** Run existing tests (`npm test`) and confirm exit code 0 *before* making any changes.
+2. **[ ] Call-Site Audit:** Grep all references to the target function/component to ensure no breaking changes across callers.
+3. **[ ] Surgical Execution:** Apply the minimal structural transformation without altering runtime behavior or external outputs.
+4. **[ ] Regression Confirmation:** Re-run targeted and full test suites to verify 0 regressions.
+

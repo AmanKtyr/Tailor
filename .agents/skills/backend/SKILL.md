@@ -58,3 +58,70 @@ Check `.ai/API.md` for project-specific conventions (REST, GraphQL, tRPC). Adher
   - For small, static sets: Offset-based pagination (`limit`, `offset`).
   - For high-volume, real-time data: Keyset / Cursor-based pagination (`cursor`, `take`).
 * **Connection Pooling:** Reuse connection pools; never instantiate new database connection clients per HTTP request.
+
+---
+
+## 4. Mandatory Backend Execution Checklist
+
+Follow this sequence for every backend route, handler, or service mutation:
+
+1. **Pre-Flight Reuse Check:** Inspect `src/services/` or `src/controllers/` to reuse existing database clients, validators, and error classes.
+2. **Boundary Validation:** Parse headers, query parameters, and JSON bodies with schema validation (`zod`, `pydantic`). Reject invalid input with `400` or `422`.
+3. **Atomic Transactions:** If modifying more than one entity or table, enclose all operations within an atomic database transaction.
+4. **Error Handling:** Catch expected domain errors and map them to standard HTTP status codes. Never swallow errors silently or leak internal stack traces.
+5. **Targeted Verification:** Run the targeted test for the modified handler or endpoint (e.g., `npm test -- user.test.ts`).
+
+---
+
+## 5. Contrast Matrix: Anti-Patterns vs Required Standards
+
+### Anti-Pattern 1: Silent Error Swallowing
+```ts
+// ❌ WRONG: Swallows error silently, leaving system in inconsistent state
+try {
+  await db.user.create({ data });
+} catch (err) {
+  // Silent fail or meaningless console.log
+}
+```
+```ts
+// ✅ CORRECT: Log internal error and return structured error response
+try {
+  await db.user.create({ data });
+} catch (err: unknown) {
+  logger.error('Failed to create user', { error: err, requestId });
+  throw new DomainError('USER_CREATION_FAILED', 'Unable to register user account.', 409);
+}
+```
+
+### Anti-Pattern 2: Missing Boundary Validation (Mass Assignment)
+```ts
+// ❌ WRONG: Blindly trust user-supplied request body
+app.post('/api/profile', async (req, res) => {
+  await db.user.update({ where: { id: req.user.id }, data: req.body }); // Can overwrite isAdmin!
+});
+```
+```ts
+// ✅ CORRECT: Strict schema parsing stripping unvetted fields
+const ProfileUpdateSchema = z.object({
+  displayName: z.string().min(2).max(50),
+  bio: z.string().max(280).optional(),
+});
+
+app.post('/api/profile', async (req, res) => {
+  const validated = ProfileUpdateSchema.parse(req.body);
+  await db.user.update({ where: { id: req.user.id }, data: validated });
+});
+```
+
+### Anti-Pattern 3: Hardcoded Environment Secrets & Endpoints
+```ts
+// ❌ WRONG: Hardcoded URL or port
+const DB_URL = "postgres://postgres:password@localhost:5432/production";
+```
+```ts
+// ✅ CORRECT: Validated environment variables
+const DB_URL = process.env.DATABASE_URL;
+if (!DB_URL) throw new Error("CRITICAL: DATABASE_URL environment variable is missing.");
+```
+

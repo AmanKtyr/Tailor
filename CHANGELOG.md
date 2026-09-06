@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-09-06
+
+### Added
+- **Dedicated Skills Management (`tailor skills` CLI):**
+  - Added `tailor skills list` to display all available skills and `.agents/skills/` sync status.
+  - Added `tailor skills sync` to mirror skills across the workspace.
+  - Added `tailor skills info <name>` to view directives for any target skill.
+- **MCP Server Skills Tools:**
+  - Added `tailor_skills_list` and `tailor_skill_get` for on-demand skill retrieval in Claude Desktop, Cursor, and Zed.
+- **Strict Non-Negotiable Guardrails:**
+  - Added **Zero Unrequested Styling Guardrail** prohibiting unsolicited CSS, Tailwind classes, colors, gradients, and animations.
+  - Added **Zero Bloat & Minimal Diff Discipline (Anti-Slop)** prohibiting speculative wrappers, mock data, and filler comments.
+  - Added **Cold-Start Resilience** ensuring proper fallback when `.ai/` is not yet initialized.
+- **Enhanced Skills Instructions:**
+  - Upgraded core skills (`backend`, `security`, `testing`, `refactoring`, `dependency-governance`, `frontend`, `pragmatism`) with step-by-step checklists, Anti-Pattern code contrasts, and high-affinity intent triggers for Gemini 3.8 and GPT-4o.
+- **Diagnostics & Packaging:**
+  - Added diagnostic check in `tailor doctor` for `.agents/skills` synchronization.
+  - Included `.agents` in npm package distribution.
+
 ## [0.1.0] - 2026-08-16
 
 ### Added

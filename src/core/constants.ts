@@ -2,7 +2,7 @@
  * Core constants for Tailor.
  */
 
-export const TAILOR_VERSION = '0.1.0';
+export const TAILOR_VERSION = '1.4.0';
 
 export const TAILOR_TAGLINE = 'Make the code fit the project.';
 

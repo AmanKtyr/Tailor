@@ -1,6 +1,6 @@
 ---
 name: testing
-description: Governs automated testing discipline, test runner discovery, targeted test execution, and enforces truthful verification.
+description: Governs automated testing discipline, unit tests, integration tests, vitest, jest, pytest, mocking boundaries, regression tests, and truthful verification.
 ---
 
 # Testing Discipline Skill
@@ -52,3 +52,29 @@ Run targeted tests for modified files to provide fast feedback, then run the ful
 1. **Zero Fabrication:** Never state *"All tests passed"* without executing the test command and confirming that the process exited with code 0.
 2. **Regression Assertion for Bugfixes:** Every bug fix must include an automated regression test reproducing the original bug condition and asserting its resolution.
 3. **Clean Teardown:** Ensure tests clean up temporary files, mock servers, and database records to prevent cross-test pollution.
+
+---
+
+## 4. Testing Execution Workflow & Mocking Contrasts
+
+### Step-by-Step Testing Protocol
+1. **Runner Discovery:** Identify the project test runner from `package.json` or stack manifests (`vitest`, `jest`, `pytest`, `go test`).
+2. **Reproduction / Contract Test:** Before fixing a bug, create a minimal test case asserting the failing condition. Before adding a feature, write tests defining the acceptance criteria.
+3. **Targeted Execution:** Run the test targeting only the modified test file (`npm test -- path/to/spec.test.ts`).
+4. **Full Verification:** Run the full project test suite (`npm test`) and confirm exit code 0 before concluding.
+
+### Mocking Contrast Matrix
+```ts
+// ❌ WRONG: Mocking internal pure business functions (tests nothing meaningful)
+vi.spyOn(userService, 'calculateDiscount').mockReturnValue(10);
+// Tests become brittle and assert implementation details rather than real behavior!
+```
+```ts
+// ✅ CORRECT: Test pure logic with real inputs, mock ONLY external I/O
+// Test pure logic directly:
+expect(calculateDiscount({ userTier: 'GOLD', cartTotal: 100 })).toBe(10);
+
+// Mock external network/payment gateway only:
+vi.spyOn(stripeClient.charges, 'create').mockResolvedValue({ id: 'ch_test123', status: 'succeeded' });
+```
+
