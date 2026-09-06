@@ -3,7 +3,7 @@
 **Project:** @amanktyr/tailor  
 **Type:** cli  
 **Primary Language:** TypeScript  
-**Last Verified:** 2026-08-18  
+**Last Verified:** 2026-09-06  
 
 ## Read First
 1. [`PROJECT.md`](PROJECT.md) — High-level product overview and objectives.
@@ -21,6 +21,8 @@
 
 ## Critical Rules
 1. **Reuse First:** Always search existing components, utils, and abstractions before writing new code.
-2. **Follow Stack:** Never introduce new frameworks or duplicate styling libraries without explicit justification.
-3. **Preserve Architecture:** Respect ADRs in `DECISIONS.md`. Do not rewrite architecture unprompted.
-4. **Targeted Validation:** Run relevant tests for changed areas. Do not fabricate test or security passes.
+2. **Zero Unsolicited Styling:** Never invent, redesign, or alter CSS classes, colors, themes, or inline styles unless explicitly requested. If unstyled, emit clean semantic HTML.
+3. **Zero Bloat & Speculative Code:** Write minimal code; no premature wrappers, mock datasets, or obvious filler comments.
+4. **Follow Stack:** Never introduce new frameworks or duplicate styling libraries without explicit justification.
+5. **Preserve Architecture:** Respect ADRs in `DECISIONS.md`. Do not rewrite architecture unprompted.
+6. **Targeted Validation:** Run relevant tests for changed areas. Do not fabricate test or security passes.

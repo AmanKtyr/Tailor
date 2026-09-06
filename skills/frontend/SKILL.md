@@ -11,11 +11,14 @@ Activate this skill when creating or modifying user interfaces, client component
 
 ---
 
-## 1. Single Design System & Styling Invariant
+## 1. Strict Negative Guardrail: Zero Unrequested Styling & Token Invariant
 
-* **Inspect `.ai/UI.md` first:** Identify the established styling framework (Tailwind CSS, CSS Modules, Styled Components, Vanilla CSS, shadcn/ui).
+* **Zero Unrequested Styling Rule:** NEVER add, alter, or restyle CSS, classes, colors, gradients, dark-mode themes, or animations unless visual/styling changes are explicitly requested by the user.
+* **Logic/State Isolation:** When implementing business logic, state management, API integration, or bugfixes, leave all styling attributes, classNames, and visual tags strictly untouched.
+* **Inspect `.ai/UI.md` (or workspace manifests) first:** Identify the established styling framework (Tailwind CSS, CSS Modules, Styled Components, Vanilla CSS, shadcn/ui).
 * **Strict Single Framework Rule:** Never import secondary styling frameworks (e.g. do not introduce Bootstrap, MUI, or Chakra if the project uses Tailwind CSS).
-* **Token Consistency:** Use centralized theme variables and design tokens for spacing, typography, colors, shadows, and border radii.
+* **Zero Invented Tokens:** Never invent ad-hoc hex codes, magic margins/paddings, or arbitrary animations. Always reuse existing project theme tokens.
+* **Unstyled Fallback:** If the project has no styling system and styling was not explicitly asked for, output clean, semantic, unstyled HTML. Never invent a custom CSS theme or inline styles unprompted.
 
 ---
 

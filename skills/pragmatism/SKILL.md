@@ -87,10 +87,20 @@ Always prefer built-in standard library primitives over external packages:
 
 ---
 
-## 4. The "Lazy, Not Negligent" Guardrails
+## 4. Strict Anti-Bloat & Zero-Slop Guardrails
+
+* **Minimal Diff Discipline:** Implement strictly what is required to satisfy the prompt. Never refactor adjacent code, reformat untouched functions, or add unasked features.
+* **No Speculative Abstractions:** Do not create abstract factory classes, generic type utilities, or 5-layer helper hierarchies for one-off operations.
+* **No Mock / Dummy Data in Production:** Never inject fake user lists, mock arrays, or hardcoded dummy objects into real application files.
+* **No Filler Comments:** Do not write comments that restate the obvious code (e.g. `// render button`, `// handle click`). Only document non-obvious *why* (business rules, security caveats).
+
+---
+
+## 5. The "Lazy, Not Negligent" Guardrails
 
 Pragmatism must never be used as an excuse for cutting corners on critical system invariants:
 * **Security & Validation:** Never skip input sanitization, CSRF defenses, or SQL parameterization.
 * **Accessibility:** Native HTML elements must retain proper ARIA attributes, labels, and focus states.
 * **Data Integrity:** Database transactions and atomic writes must be preserved across mutations.
 * **Testing:** Always run targeted tests and verify exit code 0 before completing tasks.
+

@@ -6,6 +6,8 @@ import { DEFAULT_CONFIG } from '../../config/schema.js';
 import { logger } from '../../utils/logger.js';
 import { ProjectProfile } from '../../core/types.js';
 
+import { AdapterManager } from '../../adapters/manager.js';
+
 export interface InitCommandOptions {
   profile?: string;
   name?: string;
@@ -43,6 +45,16 @@ export async function runInitCommand(workspaceRoot: string, options: InitCommand
   const memoryFiles = generator.generateMemoryFiles(index);
   const written = generator.writeMemoryToDisk(workspaceRoot, memoryFiles, index.signals);
 
+  // Synchronize AI agent adapters & skills (.agents/skills, GEMINI.md, AGENTS.md, etc.)
+  const adapterManager = new AdapterManager();
+  const detected = await adapterManager.syncDetected(workspaceRoot);
+  if (detected.length === 0) {
+    const allResults = await adapterManager.syncAll(workspaceRoot);
+    written.push(...allResults.flatMap((r) => r.filesWritten));
+  } else {
+    written.push(...detected.flatMap((r) => r.filesWritten));
+  }
+
   if (options.json) {
     logger.rawJson({
       status: 'SUCCESS',
@@ -57,5 +69,6 @@ export async function runInitCommand(workspaceRoot: string, options: InitCommand
   logger.success(`Tailor initialized successfully!`);
   logger.info(`Project profile: ${index.signals.profile}`);
   logger.info(`Primary language: ${index.signals.primaryLanguage}`);
-  logger.info(`Generated ${written.length} memory files under .ai/ and root AGENTS.md`);
+  logger.info(`Generated ${written.length} files (.ai/ memory, skills, and agent adapters)`);
 }
+

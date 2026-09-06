@@ -1,18 +1,95 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { AdapterSyncResult, AgentPlatform, PlatformAdapter } from './types.js';
 
-const SHARED_AGENT_INSTRUCTIONS = `# AI Agent Guidance (Powered by Tailor)
+export const SHARED_AGENT_INSTRUCTIONS = `# AI Agent Guidance (Powered by Tailor)
 
 This repository uses **Tailor** for project intelligence, Spec-Driven Development, and Reuse-First engineering discipline.
 
-## Core Directives
-1. **Constitution & Project Memory First:** Always consult [\`.ai/CONSTITUTION.md\`](.ai/CONSTITUTION.md) and [\`.ai/INDEX.md\`](.ai/INDEX.md) before making non-trivial changes.
-2. **Reuse-First Decision Ladder:** Always search existing components, hooks, and utilities before writing new code.
-3. **Pragmatic Simplicity:** Prefer standard library and native platform APIs over trivial external dependencies.
-4. **Spec-Driven Discipline:** For non-trivial features, follow the specification lifecycle (\`specs/<id>/spec.md\` -> \`plan.md\` -> \`tasks.md\`).
-5. **Truthful Verification:** Verify changes with targeted tests; never fabricate test passes.
+## Non-Negotiable Directives
+
+### 1. Cold-Start & Project Memory Hierarchy
+- Always consult [\`.ai/CONSTITUTION.md\`](.ai/CONSTITUTION.md) and [\`.ai/INDEX.md\`](.ai/INDEX.md) first before planning or making non-trivial modifications.
+- **Cold-Start Fallback:** If the \`.ai/\` directory does not exist yet, do NOT invent arbitrary conventions. Inspect \`package.json\` (or workspace manifests) and active source files directly to determine established patterns, and suggest running \`npx @amanktyr/tailor init\` to establish project memory.
+
+### 2. Mandatory Guardrail: Zero Unrequested Styling & Redesign
+- **STRICTLY PROHIBITED:** NEVER add, alter, or inject CSS, styling frameworks, inline styles, gradients, glassmorphism, or animations unless the user explicitly requested visual or styling changes.
+- When working on logic, bugfixes, refactoring, or state management: preserve existing visual markup and styling tokens untouched.
+- When writing UI components: strictly reuse existing design tokens, components, and CSS classes from the codebase or \`.ai/UI.md\`. Never invent new arbitrary classes, hex colors, or custom styling rules.
+- If the project has no styling system and no styling is requested, output clean, unstyled semantic HTML.
+
+### 3. Mandatory Guardrail: Zero Bloat & Minimal Diff Discipline (Anti-Slop)
+- Implement **only** the minimal code required to satisfy the user's specific request.
+- **NO speculative abstractions:** Do not create premature wrapper classes, generic factories, or speculative interfaces for one-off operations.
+- **NO dummy/mock data:** Never add mock datasets, fake user lists, or placeholder fixtures in production code.
+- **NO filler comments:** Never write redundant explanatory comments (e.g. \`// Here we define the function\`) that state the obvious. Only document *why* non-obvious business logic or security decisions exist.
+
+### 4. Reuse-First Decision Ladder
+Before writing any new function, hook, utility, or component, execute this sequence:
+1. **YAGNI:** Does this truly need to exist? If speculative, reject it.
+2. **Reuse:** Search the codebase (\`src/components/\`, \`src/utils/\`, \`src/hooks/\`) for matching or similar implementations (>=70% semantic similarity: extend or parameterize instead of duplicating).
+3. **Standard Library:** Use native standard library / browser APIs (e.g. \`crypto.randomUUID()\`, \`structuredClone()\`, \`fetch()\`) instead of external micro-packages.
+4. **Existing Dependencies:** Prefer already-installed dependencies over introducing new packages.
+5. **Minimal Custom Code:** Only write new code when no existing primitive or component solves the requirement.
+
+### 5. Spec-Driven Discipline
+- For non-trivial features or multi-step tasks, follow the specification lifecycle (\`specs/<id>/spec.md\` -> \`plan.md\` -> \`tasks.md\`).
+
+### 6. Truthful Verification
+- Run targeted tests and verify changes before completion. Never fabricate test passes or security claims without running the verification command and confirming exit code 0.
 `;
+
+function copyDirSync(src: string, dest: string): string[] {
+  const written: string[] = [];
+  if (!fs.existsSync(src)) return written;
+  if (!fs.existsSync(dest)) {
+    fs.mkdirSync(dest, { recursive: true });
+  }
+
+  const entries = fs.readdirSync(src, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+
+    if (entry.isDirectory()) {
+      written.push(...copyDirSync(srcPath, destPath));
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+      written.push(destPath);
+    }
+  }
+  return written;
+}
+
+export function syncSkillsToAgentsFolder(workspaceRoot: string, customSkillsDir?: string): string[] {
+  const targetDir = path.join(workspaceRoot, '.agents', 'skills');
+  let sourceDir = customSkillsDir;
+
+  if (!sourceDir || !fs.existsSync(sourceDir)) {
+    // Check workspace root skills/
+    const workspaceSkills = path.join(workspaceRoot, 'skills');
+    if (fs.existsSync(workspaceSkills)) {
+      sourceDir = workspaceSkills;
+    } else {
+      // Check package bundled skills
+      try {
+        const pkgSkills = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../skills');
+        if (fs.existsSync(pkgSkills)) {
+          sourceDir = pkgSkills;
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }
+
+  if (!sourceDir || !fs.existsSync(sourceDir) || path.resolve(sourceDir) === path.resolve(targetDir)) {
+    return [];
+  }
+
+  return copyDirSync(sourceDir, targetDir);
+}
 
 export class CodexAdapter implements PlatformAdapter {
   public platform: AgentPlatform = 'codex';
@@ -22,20 +99,16 @@ export class CodexAdapter implements PlatformAdapter {
     return fs.existsSync(path.join(workspaceRoot, '.agents')) || fs.existsSync(path.join(workspaceRoot, 'skills'));
   }
 
-  public async sync(workspaceRoot: string, _skillsDir?: string): Promise<AdapterSyncResult> {
-    const agentsSkillsDir = path.join(workspaceRoot, '.agents', 'skills');
+  public async sync(workspaceRoot: string, skillsDir?: string): Promise<AdapterSyncResult> {
     const agentsFile = path.join(workspaceRoot, 'AGENTS.md');
-
-    if (!fs.existsSync(agentsSkillsDir)) {
-      fs.mkdirSync(agentsSkillsDir, { recursive: true });
-    }
-
     fs.writeFileSync(agentsFile, SHARED_AGENT_INSTRUCTIONS, 'utf8');
+
+    const copiedSkills = syncSkillsToAgentsFolder(workspaceRoot, skillsDir);
 
     return {
       platform: 'codex',
       targetPath: agentsFile,
-      filesWritten: [agentsFile],
+      filesWritten: [agentsFile, ...copiedSkills],
       status: 'SUCCESS',
       notes: 'AGENTS.md and .agents/skills synchronized.',
     };
@@ -80,7 +153,7 @@ export class CursorAdapter implements PlatformAdapter {
 
     const cursorMdcPath = path.join(cursorRulesDir, 'tailor.mdc');
     const mdcContent = `---
-description: Tailor Reuse-First and Spec-Driven rules
+description: Tailor Reuse-First, Zero-Bloat, and Spec-Driven rules
 globs: *
 ---
 ${SHARED_AGENT_INSTRUCTIONS}
@@ -104,18 +177,25 @@ export class GeminiAdapter implements PlatformAdapter {
   public displayName = 'Gemini CLI / Antigravity';
 
   public detect(workspaceRoot: string): boolean {
-    return fs.existsSync(path.join(workspaceRoot, 'GEMINI.md'));
+    return (
+      fs.existsSync(path.join(workspaceRoot, 'GEMINI.md')) ||
+      fs.existsSync(path.join(workspaceRoot, '.agents')) ||
+      fs.existsSync(path.join(workspaceRoot, 'skills'))
+    );
   }
 
-  public async sync(workspaceRoot: string): Promise<AdapterSyncResult> {
+  public async sync(workspaceRoot: string, skillsDir?: string): Promise<AdapterSyncResult> {
     const geminiPath = path.join(workspaceRoot, 'GEMINI.md');
     fs.writeFileSync(geminiPath, SHARED_AGENT_INSTRUCTIONS, 'utf8');
+
+    const copiedSkills = syncSkillsToAgentsFolder(workspaceRoot, skillsDir);
+
     return {
       platform: 'gemini',
       targetPath: geminiPath,
-      filesWritten: [geminiPath],
+      filesWritten: [geminiPath, ...copiedSkills],
       status: 'SUCCESS',
-      notes: 'GEMINI.md linked to Tailor project memory.',
+      notes: 'GEMINI.md and .agents/skills synchronized for Gemini CLI & Antigravity.',
     };
   }
 }

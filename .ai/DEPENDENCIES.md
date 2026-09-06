@@ -1,6 +1,6 @@
 # Dependency Governance
 
-**Last Verified:** 2026-08-18  
+**Last Verified:** 2026-09-06  
 **Audit Policy:** Require automated vulnerability & license checks before adding new packages.
 
 ## Recorded Dependencies

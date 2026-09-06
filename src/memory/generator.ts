@@ -38,9 +38,11 @@ export class MemoryGenerator {
 ${signals.seo?.hasMetaTags || signals.profile === 'public-web' || signals.profile === 'saas' ? '- Search & Discovery: [`SEO.md`](SEO.md)\n' : ''}
 ## Critical Rules
 1. **Reuse First:** Always search existing components, utils, and abstractions before writing new code.
-2. **Follow Stack:** Never introduce new frameworks or duplicate styling libraries without explicit justification.
-3. **Preserve Architecture:** Respect ADRs in \`DECISIONS.md\`. Do not rewrite architecture unprompted.
-4. **Targeted Validation:** Run relevant tests for changed areas. Do not fabricate test or security passes.
+2. **Zero Unsolicited Styling:** Never invent, redesign, or alter CSS classes, colors, themes, or inline styles unless explicitly requested. If unstyled, emit clean semantic HTML.
+3. **Zero Bloat & Speculative Code:** Write minimal code; no premature wrappers, mock datasets, or obvious filler comments.
+4. **Follow Stack:** Never introduce new frameworks or duplicate styling libraries without explicit justification.
+5. **Preserve Architecture:** Respect ADRs in \`DECISIONS.md\`. Do not rewrite architecture unprompted.
+6. **Targeted Validation:** Run relevant tests for changed areas. Do not fabricate test or security passes.
 `;
     generated.push({ fileName: 'INDEX.md', relativePath: path.join(MEMORY_DIR, 'INDEX.md'), content: indexContent });
 
@@ -249,11 +251,13 @@ ${allManifestDeps.length > 0 ? allManifestDeps.join('\n') : '- No external produ
 As an AI coding agent working in this repository, you agree to:
 1. **Read \`.ai/INDEX.md\` First:** Understand the project domain and context before applying non-trivial changes.
 2. **Follow the Reuse-First Ladder:** Always look for existing code, components, hooks, and utilities before creating new ones.
-3. **Respect Architecture Decisions:** Do not contradict accepted decisions in \`.ai/DECISIONS.md\`.
-4. **Preserve Conventions:** Respect formatting, style, and comments philosophy in \`.ai/CONVENTIONS.md\`.
-5. **Enforce Dependency Governance:** Do not install unnecessary packages without justification and security review.
-6. **Maintain Truthful Verification:** Execute tests and checks. Never fabricate test passes or security claims.
-7. **Keep Memory in Sync:** Update \`.ai/\` files when making architectural or stack changes.
+3. **Zero Unsolicited Styling:** Never invent, redesign, or alter CSS classes, colors, themes, or inline styles unless styling changes are explicitly requested.
+4. **Zero Bloat & Speculative Code:** Write minimal code; no premature abstractions, mock datasets, or obvious filler comments.
+5. **Respect Architecture Decisions:** Do not contradict accepted decisions in \`.ai/DECISIONS.md\`.
+6. **Preserve Conventions:** Respect formatting, style, and comments philosophy in \`.ai/CONVENTIONS.md\`.
+7. **Enforce Dependency Governance:** Do not install unnecessary packages without justification and security review.
+8. **Maintain Truthful Verification:** Execute tests and checks. Never fabricate test passes or security claims.
+9. **Keep Memory in Sync:** Update \`.ai/\` files when making architectural or stack changes.
 `;
     generated.push({ fileName: 'AGENT-CONTRACT.md', relativePath: path.join(MEMORY_DIR, 'AGENT-CONTRACT.md'), content: contractContent });
 
@@ -285,11 +289,14 @@ As an AI coding agent working in this repository, you agree to:
 
 This repository uses **Tailor** for project intelligence and memory.
 
-## Instructions
-1. Read [\`.ai/INDEX.md\`](.ai/INDEX.md) before making non-trivial modifications.
-2. Follow the **Reuse-First** engineering ladder: reuse existing components, utilities, and abstractions.
-3. Respect architectural decisions in [\`.ai/DECISIONS.md\`](.ai/DECISIONS.md).
-4. Run targeted tests and verify changes before completion.
+## Non-Negotiable Directives
+1. **Constitution & Project Memory First:** Always consult [\`.ai/CONSTITUTION.md\`](.ai/CONSTITUTION.md) and [\`.ai/INDEX.md\`](.ai/INDEX.md) before making non-trivial changes.
+2. **Zero Unsolicited Styling:** NEVER add, alter, or inject CSS, Tailwind classes, colors, gradients, or restyle components unless explicitly requested.
+3. **Zero Bloat & Speculative Code:** Minimal diff discipline; no mock datasets, premature abstractions, or obvious filler comments.
+4. **Reuse-First Decision Ladder:** Search existing components, hooks, and utilities before writing new code.
+5. **Pragmatic Simplicity:** Prefer standard library and native platform APIs over trivial external dependencies.
+6. **Spec-Driven Discipline:** For non-trivial features, follow the specification lifecycle (\`specs/<id>/spec.md\` -> \`plan.md\` -> \`tasks.md\`).
+7. **Truthful Verification:** Verify changes with targeted tests; never fabricate test passes.
 `;
     fs.writeFileSync(agentsMdPath, agentsMdContent, 'utf8');
     writtenPaths.push(agentsMdPath);
@@ -297,3 +304,4 @@ This repository uses **Tailor** for project intelligence and memory.
     return writtenPaths;
   }
 }
+

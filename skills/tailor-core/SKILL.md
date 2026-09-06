@@ -94,3 +94,7 @@ To prevent LLM context saturation and reduce token consumption by 40-80%:
 2. **Reuse Before Creation:** If a matching component or utility exists in the codebase with >=70% semantic similarity, parameterize or extend it rather than creating a duplicate.
 3. **No Phantom Dependencies:** Never introduce an external package without evaluating native standard library alternatives and verifying license compatibility.
 4. **Preserve Codebase Conventions:** Conform to established formatting, casing, typing rigor, and directory layouts documented in `.ai/`.
+5. **Zero Unsolicited Styling:** Never invent, redesign, or alter CSS classes, colors, themes, or inline styles unless styling changes are explicitly requested. If no styling exists and none is requested, emit clean unstyled semantic HTML.
+6. **Zero Speculative Bloat:** Adhere to minimal diff discipline. Never introduce mock datasets, premature abstraction wrappers, or obvious filler comments.
+7. **Cold-Start Resilience:** When `.ai/` is missing, inspect workspace manifests directly, respect existing code patterns, and advise initializing Tailor (`tailor init`).
+
