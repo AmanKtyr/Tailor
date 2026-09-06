@@ -33,6 +33,8 @@ AI coding assistants frequently encounter two distinct failure modes:
 * **Adaptive Pragmatism Ladder:** Enforces the 7-step decision ladder (YAGNI -> Existing Code -> Stdlib -> Native API -> Installed Dep -> One-liner -> Minimal Code) with configurable intensity levels (`lite`, `balanced`, `ultra`, `strict`).
 * **Progressive Project Memory (`.ai/`):** Self-healing, compact domain memory reducing LLM context token overhead by up to 80% with live drift repair.
 * **AST Semantic Code Reuse:** Deterministically indexes workspace components, hooks, and utilities to inject reuse audits prior to code generation.
+* **Strict Anti-Styling & Anti-Bloat Guardrails:** Enforces zero unsolicited CSS, prevents styling sprawl (gradients, glassmorphism, random Tailwind classes), and mandates minimal diff discipline.
+* **17 Production Agent Skills:** Standardized skills across frontend, backend, security, testing, architecture, and governance synchronized automatically to `.agents/skills/`.
 * **Native MCP Server:** Connects directly to Claude Desktop, Cursor, Zed, Windsurf, and Antigravity via standard JSON-RPC.
 
 ---
@@ -164,8 +166,8 @@ Before writing any new implementation or adding dependencies, AI agents follow t
 | :--- | :--- | :--- |
 | **Claude Code** | `CLAUDE.md` | Loads `.ai/CONSTITUTION.md` and enforces Reuse-First rules |
 | **Cursor IDE** | `.cursorrules` & `.cursor/rules/tailor.mdc` | Guides Cursor Composer & Chat with project memory |
-| **OpenAI Codex / ChatGPT** | `AGENTS.md` | Resolved automatically from `.agents/skills/` |
-| **Gemini CLI / Antigravity** | `GEMINI.md` & workspace integration | Discovers skills directly in workspace root |
+| **OpenAI Codex / ChatGPT** | `AGENTS.md` & `.agents/skills/` | Resolved automatically from `.agents/skills/` standard |
+| **Gemini CLI / Antigravity** | `GEMINI.md` & `.agents/skills/` | Discovers 17 skills directly in workspace `.agents/skills/` |
 | **Windsurf** | `.windsurfrules` | Native discovery via standard rules file |
 | **Roo Code / Cline** | `.clinerules` | Enforces project constitution during task execution |
 | **GitHub Copilot CLI** | `.github/copilot-instructions.md` | Native instructions for Copilot workspace chat |
