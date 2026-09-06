@@ -90,4 +90,44 @@ describe('Model Context Protocol (MCP) Server', () => {
     const content = (res.result as any).content[0].text;
     expect(content).toContain('Standard Library');
   });
+
+  it('should execute tailor_skills_list and tailor_skill_get via MCP', async () => {
+    const skillDir = path.join(tempDir, 'skills', 'mock-skill');
+    fs.mkdirSync(skillDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(skillDir, 'SKILL.md'),
+      `---\nname: mock-skill\ndescription: Mock test skill\n---\n# Mock Skill Body`
+    );
+
+    const server = new McpServer(tempDir);
+    const listReq: JsonRpcRequest = {
+      jsonrpc: '2.0',
+      id: 5,
+      method: 'tools/call',
+      params: {
+        name: 'tailor_skills_list',
+        arguments: {},
+      },
+    };
+
+    const listRes = await server.handleRequest(listReq);
+    const listContent = JSON.parse((listRes.result as any).content[0].text);
+    expect(listContent.count).toBe(1);
+    expect(listContent.skills[0].name).toBe('mock-skill');
+
+    const getReq: JsonRpcRequest = {
+      jsonrpc: '2.0',
+      id: 6,
+      method: 'tools/call',
+      params: {
+        name: 'tailor_skill_get',
+        arguments: { skillName: 'mock-skill' },
+      },
+    };
+
+    const getRes = await server.handleRequest(getReq);
+    const getContent = JSON.parse((getRes.result as any).content[0].text);
+    expect(getContent.name).toBe('mock-skill');
+    expect(getContent.content).toContain('Mock Skill Body');
+  });
 });

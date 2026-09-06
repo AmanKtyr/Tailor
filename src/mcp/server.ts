@@ -1,4 +1,6 @@
 import * as readline from 'node:readline';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { JsonRpcRequest, JsonRpcResponse, McpToolDefinition } from './types.js';
 import { loadTailorConfig } from '../config/loader.js';
 import { ProjectIndexer } from '../scanner/indexer.js';
@@ -115,6 +117,28 @@ export const MCP_TOOLS: McpToolDefinition[] = [
     inputSchema: {
       type: 'object',
       properties: {},
+    },
+  },
+  {
+    name: 'tailor_skills_list',
+    description: 'List all available engineering skills in Tailor (frontend, backend, reuse-first, security, etc.) with their descriptions and triggers.',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'tailor_skill_get',
+    description: 'Fetch the operational contract and full instructions for a specific Tailor skill.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        skillName: {
+          type: 'string',
+          description: 'Name of the skill to retrieve (e.g. frontend, reuse-first, pragmatism, tailor-core).',
+        },
+      },
+      required: ['skillName'],
     },
   },
 ];
@@ -267,6 +291,47 @@ export class McpServer {
     if (name === 'tailor_memory_read') {
       const constitution = readConstitution(this.workspaceRoot);
       return { constitution };
+    }
+
+    if (name === 'tailor_skills_list') {
+      const skillsDir = path.join(this.workspaceRoot, 'skills');
+      const agentsSkillsDir = path.join(this.workspaceRoot, '.agents', 'skills');
+      const targetDir = fs.existsSync(skillsDir) ? skillsDir : fs.existsSync(agentsSkillsDir) ? agentsSkillsDir : null;
+      if (!targetDir) {
+        return { skills: [], count: 0 };
+      }
+      const entries = fs.readdirSync(targetDir, { withFileTypes: true }).filter((d) => d.isDirectory());
+      const skills = entries.map((d) => {
+        const file = path.join(targetDir, d.name, 'SKILL.md');
+        let description = '';
+        if (fs.existsSync(file)) {
+          const raw = fs.readFileSync(file, 'utf8');
+          const match = raw.match(/description:\s*([^\r\n]+)/);
+          if (match) description = match[1].trim();
+        }
+        return { name: d.name, description };
+      });
+      return { skills, count: skills.length };
+    }
+
+    if (name === 'tailor_skill_get') {
+      const skillName = args.skillName as string;
+      const skillsDir = path.join(this.workspaceRoot, 'skills');
+      const agentsSkillsDir = path.join(this.workspaceRoot, '.agents', 'skills');
+      const candidatePaths = [
+        path.join(skillsDir, skillName, 'SKILL.md'),
+        path.join(agentsSkillsDir, skillName, 'SKILL.md'),
+      ];
+      for (const p of candidatePaths) {
+        if (fs.existsSync(p)) {
+          return {
+            name: skillName,
+            path: p,
+            content: fs.readFileSync(p, 'utf8'),
+          };
+        }
+      }
+      throw new Error(`Skill "${skillName}" not found in workspace.`);
     }
 
     throw new Error(`Unknown tool: ${name}`);

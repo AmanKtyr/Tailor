@@ -12,6 +12,7 @@
   "files": [
     "dist",
     "skills",
+    ".agents",
     "templates",
     "adapters",
     "AGENTS.md",

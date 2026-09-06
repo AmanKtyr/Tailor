@@ -11,6 +11,7 @@ import { runSpecCommand } from './commands/spec.js';
 import { runConstitutionCommand } from './commands/constitution.js';
 import { runMcpCommand } from './commands/mcp.js';
 import { runSyncCommand } from './commands/sync.js';
+import { runSkillsCommand } from './commands/skills.js';
 
 export function createProgram(): Command {
   const program = new Command();
@@ -185,6 +186,34 @@ export function createProgram(): Command {
     .option('--json', 'Output machine-readable JSON')
     .action(async (options) => {
       await runDoctorCommand(process.cwd(), options);
+    });
+
+  const skillsCmd = program
+    .command('skills')
+    .description('Manage, inspect, and synchronize Tailor agent engineering skills');
+
+  skillsCmd
+    .command('list')
+    .description('List all available skills, frontmatter validity, and synchronization status')
+    .option('--json', 'Output machine-readable JSON')
+    .action(async (options) => {
+      await runSkillsCommand(process.cwd(), 'list', undefined, options);
+    });
+
+  skillsCmd
+    .command('sync')
+    .description('Synchronize all skills into .agents/skills/ for Gemini, Antigravity, and Codex')
+    .option('--json', 'Output machine-readable JSON')
+    .action(async (options) => {
+      await runSkillsCommand(process.cwd(), 'sync', undefined, options);
+    });
+
+  skillsCmd
+    .command('info <name>')
+    .description('Display detailed directives and documentation for a specific skill')
+    .option('--json', 'Output machine-readable JSON')
+    .action(async (name, options) => {
+      await runSkillsCommand(process.cwd(), 'info', name, options);
     });
 
   return program;

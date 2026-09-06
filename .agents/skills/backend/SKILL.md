@@ -1,6 +1,6 @@
 ---
 name: backend
-description: Governs backend architecture, API contract design, database schema management, transactional boundaries, query optimization, and error handling standards.
+description: Governs backend architecture, API endpoints, REST, GraphQL, database schemas, SQL, ORM, Prisma, Drizzle, migrations, transactions, and error handling standards.
 ---
 
 # Backend Engineering Skill

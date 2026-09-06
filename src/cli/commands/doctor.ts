@@ -105,6 +105,33 @@ export async function runDoctorCommand(workspaceRoot: string, options: DoctorCom
         message: `All ${skillDirs.length} skills in skills/ have valid SKILL.md frontmatter.`,
       });
     }
+
+    // 5. Check .agents/skills synchronization for Gemini / Antigravity / Codex
+    const agentsSkillsDir = path.join(workspaceRoot, '.agents', 'skills');
+    if (fs.existsSync(agentsSkillsDir)) {
+      const missingInAgents = skillDirs.filter((d) => !fs.existsSync(path.join(agentsSkillsDir, d.name, 'SKILL.md')));
+      if (missingInAgents.length === 0) {
+        checks.push({
+          name: 'Multi-Agent Skill Sync (.agents/skills)',
+          status: 'PASS',
+          message: `All ${skillDirs.length} skills are synchronized to .agents/skills/ for Gemini, Antigravity, and Codex.`,
+        });
+      } else {
+        checks.push({
+          name: 'Multi-Agent Skill Sync (.agents/skills)',
+          status: 'WARN',
+          message: `${missingInAgents.length} skills are missing in .agents/skills/: ${missingInAgents.map((d) => d.name).join(', ')}`,
+          remediation: 'Run `tailor skills sync` or `tailor sync` to mirror skills to .agents/skills/.',
+        });
+      }
+    } else {
+      checks.push({
+        name: 'Multi-Agent Skill Sync (.agents/skills)',
+        status: 'WARN',
+        message: '.agents/skills/ directory does not exist. Gemini CLI, Antigravity, and Codex may not discover skills.',
+        remediation: 'Run `tailor skills sync` to create and populate .agents/skills/.',
+      });
+    }
   }
 
   if (options.json) {

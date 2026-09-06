@@ -14,7 +14,7 @@ Created by **Aman Katiyar** ([@AmanKtyr](https://github.com/AmanKtyr)).
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node: >=18](https://img.shields.io/badge/Node-%3E%3D18.0.0-green.svg)](package.json)
 [![TypeScript: Strict](https://img.shields.io/badge/TypeScript-Strict-blue.svg)](tsconfig.json)
-[![Tests: Vitest](https://img.shields.io/badge/Tests-37%20Passing-brightgreen.svg)](tests/)
+[![Tests: Vitest](https://img.shields.io/badge/Tests-41%20Passing-brightgreen.svg)](tests/)
 [![Benchmarks: 100%](https://img.shields.io/badge/Benchmarks-100%25-success.svg)](benchmarks/)
 [![MCP: Supported](https://img.shields.io/badge/MCP-Protocol%202024--11--05-purple.svg)](src/mcp/)
 
@@ -101,6 +101,11 @@ Add Tailor to your `claude_desktop_config.json` or Cursor MCP settings:
 tailor init                          # Conduct discovery, stack selection, and initialize .ai/
 tailor constitution                  # View or regenerate .ai/CONSTITUTION.md
 tailor sync                          # Synchronize all 10+ AI agent adapter files
+
+# Skills Governance
+tailor skills list                   # Inspect all 17 agent engineering skills and sync status
+tailor skills sync                   # Mirror all skills into .agents/skills/ for Gemini & Codex
+tailor skills info <name>            # View complete directives and rules for a specific skill
 
 # Spec-Driven Development (SDD) Workflow
 tailor spec init                     # Initialize specs/ directory and constitution

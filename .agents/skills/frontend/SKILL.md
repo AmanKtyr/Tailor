@@ -1,6 +1,6 @@
 ---
 name: frontend
-description: Governs frontend development, component hierarchy, design system tokens, responsive styling, state management, and web performance optimization.
+description: Governs frontend development, UI components, React, Vue, Svelte, design system tokens, CSS, Tailwind, buttons, modals, forms, and responsive web performance optimization.
 ---
 
 # Frontend Engineering Skill
