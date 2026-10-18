@@ -16,9 +16,11 @@ const RULES = [
   { id: 'SEC-GENERIC-SECRET', name: 'Hardcoded Secret/Token', pattern: /(?:api_key|apikey|secret_key|private_key|auth_token|client_secret)\s*[:=]\s*['"][a-zA-Z0-9_\-+=/]{16,}['"]/i },
   { id: 'SEC-DANGEROUS-EVAL', name: 'eval() Usage', pattern: /\beval\s*\([^)]+\)/ },
   { id: 'SEC-DISABLED-TLS', name: 'Disabled TLS', pattern: /(?:rejectUnauthorized\s*:\s*false|NODE_TLS_REJECT_UNAUTHORIZED\s*=\s*['"]0['"]|verify\s*=\s*False)/ },
+  { id: 'SEC-DANGEROUS-INNER-HTML', name: 'dangerouslySetInnerHTML Usage', pattern: /dangerouslySetInnerHTML\s*=\s*\{\s*\{\s*__html/ },
+  { id: 'SEC-RAW-SQL-CONCAT', name: 'Raw SQL Interpolation', pattern: /(?:query|execute|rawQuery)\s*\(\s*['"`](?:SELECT|INSERT|UPDATE|DELETE|DROP)\s+[^'"`]*\$\{[^}]+\}/i },
 ];
 
-const EXCLUDED_DIRS = new Set(['node_modules', '.git', 'dist', 'build', 'coverage', '.next', '.cache', 'tests/fixtures', 'benchmarks/fixtures']);
+const EXCLUDED_DIRS = new Set(['node_modules', '.git', 'dist', 'build', 'coverage', '.next', '.cache', 'fixtures']);
 
 function scan(dir, findings = []) {
   let entries = [];

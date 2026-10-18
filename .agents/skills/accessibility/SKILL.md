@@ -7,7 +7,7 @@ description: Enforces web accessibility (a11y), WCAG 2.1 AA guidelines, keyboard
 
 Activate this skill when creating or modifying user interfaces, form inputs, modal dialogs, menus, navigation bars, interactive widgets, or visual styling.
 
-> **Accessibility Law:** *Accessible software is usable software for everyone. Use semantic HTML first and manage focus rigorously.*
+> **Accessibility Law:** *Accessible software is usable software for everyone. Use semantic HTML first and manage focus and motion rigorously.*
 
 ---
 
@@ -45,3 +45,28 @@ Activate this skill when creating or modifying user interfaces, form inputs, mod
 * **Informative vs Decorative Images:**
   - Informative images: Descriptive `alt="User profile photo of Jane Doe"`.
   - Purely decorative images: Explicit empty `alt=""` and `aria-hidden="true"`.
+
+---
+
+## 5. Dynamic Announcements (Live Regions)
+
+* For dynamic asynchronous updates, notifications, toast messages, and shopping cart counters:
+  - Use `aria-live="polite"` for non-disruptive announcements (e.g. "Item added to cart", "Save completed").
+  - Use `aria-live="assertive"` or `role="alert"` strictly for critical errors requiring immediate user intervention.
+  - Ensure live region containers exist in the DOM *before* dynamic content is injected into them.
+
+---
+
+## 6. Motion Sensitivity (Vestibular Safety)
+
+* Respect user motion preferences by wrapping non-essential animations, transitions, and parallax scrolling with the `prefers-reduced-motion` media query:
+  ```css
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  ```
