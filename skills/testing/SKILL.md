@@ -1,13 +1,13 @@
 ---
 name: testing
-description: Governs automated testing discipline, unit tests, integration tests, vitest, jest, pytest, mocking boundaries, regression tests, and truthful verification.
+description: Governs automated testing discipline, unit tests, integration tests, vitest, jest, pytest, mocking boundaries, anti-flakiness, behavioral assertions, regression tests, and truthful verification.
 ---
 
 # Testing Discipline Skill
 
 Activate this skill when creating features, fixing bugs, refactoring code, or running verification test suites.
 
-> **Testing Law:** *Untested code is broken code. Verified code has exit code 0.*
+> **Testing Law:** *Untested code is broken code. Flaky tests are liabilities. Verified code has exit code 0.*
 
 ---
 
@@ -78,3 +78,45 @@ expect(calculateDiscount({ userTier: 'GOLD', cartTotal: 100 })).toBe(10);
 vi.spyOn(stripeClient.charges, 'create').mockResolvedValue({ id: 'ch_test123', status: 'succeeded' });
 ```
 
+---
+
+## 5. Anti-Flakiness Invariants & Behavioral Test Standards
+
+### A. Zero Arbitrary Sleeps / Hardcoded Delays
+* **Flaky Anti-Pattern:**
+  ```ts
+  // ❌ BRITTLE: Hardcoded sleep fails on busy CI runners and wastes seconds locally
+  await new Promise((r) => setTimeout(r, 1000));
+  expect(queryStatus()).toBe('COMPLETED');
+  ```
+* **Robust Standard (Deterministic Polling):**
+  ```ts
+  // ✅ ROBUST: Resolves as soon as the condition is satisfied
+  await vi.waitFor(() => {
+    expect(queryStatus()).toBe('COMPLETED');
+  }, { timeout: 2000, interval: 50 });
+  ```
+
+### B. Test User-Visible Behavior, Not Implementation Details
+* **Brittle Anti-Pattern:** Querying by internal CSS classes (`container.querySelector('.btn-primary-blue-400')`) or inspecting private component state.
+* **Robust Standard:** Query by accessible ARIA roles, labels, or test IDs:
+  ```ts
+  // ✅ ROBUST: Resilient to CSS refactors and verifies real accessibility
+  const submitBtn = screen.getByRole('button', { name: /save changes/i });
+  expect(submitBtn).toBeEnabled();
+  ```
+
+### C. Deterministic Time & Clocks
+* Never write tests that depend on the current real-world clock (`new Date()`).
+* Use fake timers (`vi.useFakeTimers()`, `vi.setSystemTime(new Date('2026-01-01'))`) for time-dependent operations.
+
+---
+
+## 6. Pre-Commit Testing Checklist
+
+Before marking any task complete:
+* [ ] **Targeted Verification:** Executed targeted test command for the modified file with exit code 0.
+* [ ] **Full Suite Verification:** Executed `npm test` (or ecosystem equivalent) with exit code 0.
+* [ ] **Zero Arbitrary Sleeps:** Verified tests use `waitFor()` instead of `setTimeout()`.
+* [ ] **Behavioral Assertions:** Asserted public contracts or accessible roles, not private methods or CSS classes.
+* [ ] **Clean State Isolation:** Verified tests do not leak database records or global mocks.

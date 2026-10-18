@@ -1,13 +1,13 @@
 ---
 name: backend
-description: Governs backend architecture, API endpoints, REST, GraphQL, database schemas, SQL, ORM, Prisma, Drizzle, migrations, transactions, and error handling standards.
+description: Governs backend architecture, API endpoints, REST, GraphQL, database schemas, SQL, ORM, Prisma, Drizzle, migrations, transactions, concurrency, idempotency, and error handling standards.
 ---
 
 # Backend Engineering Skill
 
 Activate this skill when creating or updating API endpoints, database models, background jobs, caching layers, or backend services.
 
-> **Operational Directive:** *Design resilient, validated, and performant backend services with strict data integrity.*
+> **Operational Directive:** *Design resilient, validated, concurrent-safe, and performant backend services with strict data integrity.*
 
 ---
 
@@ -23,8 +23,9 @@ Check `.ai/API.md` for project-specific conventions (REST, GraphQL, tRPC). Adher
 * `401 Unauthorized`: Missing or invalid authentication token.
 * `403 Forbidden`: Authenticated user lacks permission to access this resource.
 * `404 Not Found`: Resource does not exist.
-* `409 Conflict`: Unique constraint violation or state transition conflict.
+* `409 Conflict`: Unique constraint violation, race conflict, or state transition conflict.
 * `422 Unprocessable Entity`: Semantically invalid payload (business rule failure).
+* `429 Too Many Requests`: Rate limit threshold exceeded.
 * `500 Internal Server Error`: Unhandled server error (never leak internal stack traces to client).
 
 ### Standard Error Response Envelope
@@ -61,19 +62,53 @@ Check `.ai/API.md` for project-specific conventions (REST, GraphQL, tRPC). Adher
 
 ---
 
-## 4. Mandatory Backend Execution Checklist
+## 4. Concurrency Guardrails, Atomic Mutations & Idempotency
+
+### A. Preventing Race Conditions & Double-Spending
+* **Anti-Pattern (Read-Modify-Write Race Condition):**
+  ```ts
+  // ❌ VULNERABLE: Concurrent requests will both read 100 and overwrite each other!
+  const account = await db.account.findUnique({ where: { id } });
+  if (account.balance >= amount) {
+    await db.account.update({ where: { id }, data: { balance: account.balance - amount } });
+  }
+  ```
+* **Correct Standard (Atomic Database Mutation):**
+  ```ts
+  // ✅ CORRECT: Atomic operation executed at the database engine level
+  const updated = await db.account.updateMany({
+    where: { id, balance: { gte: amount } },
+    data: { balance: { decrement: amount } }
+  });
+  if (updated.count === 0) {
+    throw new DomainError('INSUFFICIENT_FUNDS', 'Balance is insufficient for withdrawal.', 409);
+  }
+  ```
+
+### B. Idempotency Keys for Financial & Critical Mutations
+* For state-mutating requests (payments, checkout orders, refunds, webhooks):
+  - Support `Idempotency-Key` in request headers.
+  - Store incoming idempotency keys with their processing state and response payload in Redis/DB.
+  - If a key is currently processing, return `409 Conflict` or wait; if already completed, return the cached successful response immediately without re-executing logic.
+
+### C. Graceful Shutdown & Resource Teardown
+Always register process signal handlers (`SIGTERM`, `SIGINT`) to stop accepting new traffic, finish in-flight requests, and cleanly close database pools and queues.
+
+---
+
+## 5. Mandatory Backend Execution Checklist
 
 Follow this sequence for every backend route, handler, or service mutation:
 
 1. **Pre-Flight Reuse Check:** Inspect `src/services/` or `src/controllers/` to reuse existing database clients, validators, and error classes.
 2. **Boundary Validation:** Parse headers, query parameters, and JSON bodies with schema validation (`zod`, `pydantic`). Reject invalid input with `400` or `422`.
-3. **Atomic Transactions:** If modifying more than one entity or table, enclose all operations within an atomic database transaction.
+3. **Atomic Operations:** Ensure state-changing operations are atomic; guard against race conditions and wrap multi-entity writes in transactions.
 4. **Error Handling:** Catch expected domain errors and map them to standard HTTP status codes. Never swallow errors silently or leak internal stack traces.
 5. **Targeted Verification:** Run the targeted test for the modified handler or endpoint (e.g., `npm test -- user.test.ts`).
 
 ---
 
-## 5. Contrast Matrix: Anti-Patterns vs Required Standards
+## 6. Contrast Matrix: Anti-Patterns vs Required Standards
 
 ### Anti-Pattern 1: Silent Error Swallowing
 ```ts
@@ -113,15 +148,3 @@ app.post('/api/profile', async (req, res) => {
   await db.user.update({ where: { id: req.user.id }, data: validated });
 });
 ```
-
-### Anti-Pattern 3: Hardcoded Environment Secrets & Endpoints
-```ts
-// ❌ WRONG: Hardcoded URL or port
-const DB_URL = "postgres://postgres:password@localhost:5432/production";
-```
-```ts
-// ✅ CORRECT: Validated environment variables
-const DB_URL = process.env.DATABASE_URL;
-if (!DB_URL) throw new Error("CRITICAL: DATABASE_URL environment variable is missing.");
-```
-

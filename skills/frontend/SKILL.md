@@ -5,9 +5,9 @@ description: Governs frontend development, UI components, React, Vue, Svelte, de
 
 # Frontend Engineering Skill
 
-Activate this skill when creating or modifying user interfaces, client components, styling systems, design tokens, or frontend state.
+Activate this skill when creating or modifying user interfaces, client components, styling systems, design tokens, hooks, or frontend state.
 
-> **Operational Directive:** *Build responsive, accessible, and high-performance interfaces adhering strictly to the project's single design system.*
+> **Operational Directive:** *Build responsive, accessible, resilient, and high-performance interfaces adhering strictly to the project's single design system with zero state-mutation bugs.*
 
 ---
 
@@ -55,3 +55,76 @@ Structure UI components using the **Smart Container vs Presentational Component*
   2. Data Rendered (Normal view)
   3. Empty State (Friendly message with actionable CTA)
   4. Error State (Clear feedback with retry button)
+
+---
+
+## 4. React Hook & State Lifecycle Invariants (Anti-Bug Guardrails)
+
+### A. Immutable State Updates (Zero Direct Mutation)
+* **Insecure / Buggy:**
+  ```tsx
+  // ❌ WRONG: Mutates state array directly; fails to trigger re-renders reliably
+  items.push(newItem);
+  setItems(items);
+  ```
+* **Correct Standard:**
+  ```tsx
+  // ✅ CORRECT: Return a brand new array reference
+  setItems((prev) => [...prev, newItem]);
+  ```
+
+### B. No Redundant `useEffect` for Derived State
+* **Anti-Pattern:** Syncing props to state or calculating filtered items inside `useEffect`:
+  ```tsx
+  // ❌ WRONG: Unnecessary state + extra render cycle
+  const [filtered, setFiltered] = useState([]);
+  useEffect(() => {
+    setFiltered(items.filter((i) => i.active));
+  }, [items]);
+  ```
+* **Correct Standard:** Calculate directly during rendering (or wrap with `useMemo` if expensive):
+  ```tsx
+  // ✅ CORRECT: Pure computation with zero extra render passes
+  const filtered = useMemo(() => items.filter((i) => i.active), [items]);
+  ```
+
+### C. Strict List Key Invariant (Never Use Array Index for Dynamic Lists)
+* **Anti-Pattern:** `<li key={index}>` on lists that can be reordered, deleted, or inserted dynamically (causes subtle input value corruption and rendering bugs).
+* **Correct Standard:** Always use a stable, unique item identifier:
+  ```tsx
+  {items.map((item) => (
+    <UserRow key={item.id} user={item} />
+  ))}
+  ```
+
+### D. Memory Leak Prevention & Effect Cleanup
+Every effect initiating an async network call, event listener, timer, or WebSocket must return an explicit cleanup function:
+```tsx
+useEffect(() => {
+  const controller = new AbortController();
+
+  async function loadData() {
+    try {
+      const res = await fetch(`/api/items?id=${id}`, { signal: controller.signal });
+      const data = await res.json();
+      setData(data);
+    } catch (err: any) {
+      if (err.name !== 'AbortError') setError(err);
+    }
+  }
+
+  loadData();
+  return () => controller.abort(); // Cancel in-flight request when component unmounts or ID changes
+}, [id]);
+```
+
+---
+
+## 5. Mandatory Frontend Pre-Commit Checklist
+
+Before approving any UI or component change, verify:
+* [ ] **Styling Isolation:** Did not alter existing visual styles unless requested.
+* [ ] **Key Invariant:** No dynamic lists use array index as `key`.
+* [ ] **Cleanup Invariant:** All `useEffect` listeners, intervals, and fetch subscriptions have cleanup handlers.
+* [ ] **Derived State:** No redundant state variables synced via `useEffect`.
+* [ ] **4-State UI Coverage:** Loading, Error, Empty, and Success states handled cleanly.
